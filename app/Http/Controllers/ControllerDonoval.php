@@ -9,7 +9,6 @@ class ControllerDonoval extends Controller
     function wardia(){
 
         $data = "bonjour marzoudixxxx";
-
         return view('teste',["nom" => $data]);
 
     }
