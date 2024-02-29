@@ -208,6 +208,7 @@
         {
             "name": "doctrine/inflector",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "2.0.9",
             "source": {
                 "type": "git",
@@ -219,6 +220,8 @@
                 "url": "https://api.github.com/repos/doctrine/inflector/zipball/2930cd5ef353871c821d5c43ed030d39ac8cfe65",
                 "reference": "2930cd5ef353871c821d5c43ed030d39ac8cfe65",
 =======
+=======
+>>>>>>> Ndieme
             "version": "2.0.10",
             "source": {
                 "type": "git",
@@ -229,7 +232,10 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/inflector/zipball/5817d0659c5b50c9b950feb9af7b9668e2c436bc",
                 "reference": "5817d0659c5b50c9b950feb9af7b9668e2c436bc",
+<<<<<<< HEAD
 >>>>>>> baptiste
+=======
+>>>>>>> Ndieme
                 "shasum": ""
             },
             "require": {
@@ -292,10 +298,14 @@
             "support": {
                 "issues": "https://github.com/doctrine/inflector/issues",
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "source": "https://github.com/doctrine/inflector/tree/2.0.9"
 =======
                 "source": "https://github.com/doctrine/inflector/tree/2.0.10"
 >>>>>>> baptiste
+=======
+                "source": "https://github.com/doctrine/inflector/tree/2.0.10"
+>>>>>>> Ndieme
             },
             "funding": [
                 {
@@ -312,10 +322,14 @@
                 }
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2024-01-15T18:05:13+00:00"
 =======
             "time": "2024-02-18T20:23:39+00:00"
 >>>>>>> baptiste
+=======
+            "time": "2024-02-18T20:23:39+00:00"
+>>>>>>> Ndieme
         },
         {
             "name": "doctrine/lexer",
@@ -1069,6 +1083,7 @@
         {
             "name": "laravel/framework",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "v10.44.0",
             "source": {
                 "type": "git",
@@ -1080,6 +1095,8 @@
                 "url": "https://api.github.com/repos/laravel/framework/zipball/1199dbe361787bbe9648131a79f53921b4148cf6",
                 "reference": "1199dbe361787bbe9648131a79f53921b4148cf6",
 =======
+=======
+>>>>>>> Ndieme
             "version": "v10.45.1",
             "source": {
                 "type": "git",
@@ -1090,7 +1107,10 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/dcf5d1d722b84ad38a5e053289130b6962f830bd",
                 "reference": "dcf5d1d722b84ad38a5e053289130b6962f830bd",
+<<<<<<< HEAD
 >>>>>>> baptiste
+=======
+>>>>>>> Ndieme
                 "shasum": ""
             },
             "require": {
@@ -1284,10 +1304,14 @@
                 "source": "https://github.com/laravel/framework"
             },
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2024-02-13T16:01:16+00:00"
 =======
             "time": "2024-02-21T14:07:36+00:00"
 >>>>>>> baptiste
+=======
+            "time": "2024-02-21T14:07:36+00:00"
+>>>>>>> Ndieme
         },
         {
             "name": "laravel/prompts",
@@ -2291,6 +2315,7 @@
         {
             "name": "nikic/php-parser",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "v5.0.0",
             "source": {
                 "type": "git",
@@ -2302,6 +2327,8 @@
                 "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/4a21235f7e56e713259a6f76bf4b5ea08502b9dc",
                 "reference": "4a21235f7e56e713259a6f76bf4b5ea08502b9dc",
 =======
+=======
+>>>>>>> Ndieme
             "version": "v5.0.1",
             "source": {
                 "type": "git",
@@ -2312,7 +2339,10 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/2218c2252c874a4624ab2f613d86ac32d227bc69",
                 "reference": "2218c2252c874a4624ab2f613d86ac32d227bc69",
+<<<<<<< HEAD
 >>>>>>> baptiste
+=======
+>>>>>>> Ndieme
                 "shasum": ""
             },
             "require": {
@@ -2356,6 +2386,7 @@
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "source": "https://github.com/nikic/PHP-Parser/tree/v5.0.0"
             },
             "time": "2024-01-07T17:17:35+00:00"
@@ -2364,6 +2395,11 @@
             },
             "time": "2024-02-21T19:24:10+00:00"
 >>>>>>> baptiste
+=======
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.0.1"
+            },
+            "time": "2024-02-21T19:24:10+00:00"
+>>>>>>> Ndieme
         },
         {
             "name": "nunomaduro/termwind",
@@ -3339,6 +3375,9 @@
         {
             "name": "symfony/css-selector",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Ndieme
             "version": "v6.4.3",
             "source": {
                 "type": "git",
@@ -3353,6 +3392,7 @@
             },
             "require": {
                 "php": ">=8.1"
+<<<<<<< HEAD
 =======
             "version": "v7.0.3",
             "source": {
@@ -3369,6 +3409,8 @@
             "require": {
                 "php": ">=8.2"
 >>>>>>> baptiste
+=======
+>>>>>>> Ndieme
             },
             "type": "library",
             "autoload": {
@@ -3401,10 +3443,14 @@
             "homepage": "https://symfony.com",
             "support": {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "source": "https://github.com/symfony/css-selector/tree/v6.4.3"
 =======
                 "source": "https://github.com/symfony/css-selector/tree/v7.0.3"
 >>>>>>> baptiste
+=======
+                "source": "https://github.com/symfony/css-selector/tree/v6.4.3"
+>>>>>>> Ndieme
             },
             "funding": [
                 {
@@ -3421,10 +3467,14 @@
                 }
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2024-01-23T14:51:35+00:00"
 =======
             "time": "2024-01-23T15:02:46+00:00"
 >>>>>>> baptiste
+=======
+            "time": "2024-01-23T14:51:35+00:00"
+>>>>>>> Ndieme
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -3571,6 +3621,9 @@
         {
             "name": "symfony/event-dispatcher",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Ndieme
             "version": "v6.4.3",
             "source": {
                 "type": "git",
@@ -3589,6 +3642,7 @@
             },
             "conflict": {
                 "symfony/dependency-injection": "<5.4",
+<<<<<<< HEAD
 =======
             "version": "v7.0.3",
             "source": {
@@ -3609,6 +3663,8 @@
             "conflict": {
                 "symfony/dependency-injection": "<6.4",
 >>>>>>> baptiste
+=======
+>>>>>>> Ndieme
                 "symfony/service-contracts": "<2.5"
             },
             "provide": {
@@ -3618,6 +3674,9 @@
             "require-dev": {
                 "psr/log": "^1|^2|^3",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Ndieme
                 "symfony/config": "^5.4|^6.0|^7.0",
                 "symfony/dependency-injection": "^5.4|^6.0|^7.0",
                 "symfony/error-handler": "^5.4|^6.0|^7.0",
@@ -3625,6 +3684,7 @@
                 "symfony/http-foundation": "^5.4|^6.0|^7.0",
                 "symfony/service-contracts": "^2.5|^3",
                 "symfony/stopwatch": "^5.4|^6.0|^7.0"
+<<<<<<< HEAD
 =======
                 "symfony/config": "^6.4|^7.0",
                 "symfony/dependency-injection": "^6.4|^7.0",
@@ -3634,6 +3694,8 @@
                 "symfony/service-contracts": "^2.5|^3",
                 "symfony/stopwatch": "^6.4|^7.0"
 >>>>>>> baptiste
+=======
+>>>>>>> Ndieme
             },
             "type": "library",
             "autoload": {
@@ -3662,10 +3724,14 @@
             "homepage": "https://symfony.com",
             "support": {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "source": "https://github.com/symfony/event-dispatcher/tree/v6.4.3"
 =======
                 "source": "https://github.com/symfony/event-dispatcher/tree/v7.0.3"
 >>>>>>> baptiste
+=======
+                "source": "https://github.com/symfony/event-dispatcher/tree/v6.4.3"
+>>>>>>> Ndieme
             },
             "funding": [
                 {
@@ -3682,10 +3748,14 @@
                 }
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2024-01-23T14:51:35+00:00"
 =======
             "time": "2024-01-23T15:02:46+00:00"
 >>>>>>> baptiste
+=======
+            "time": "2024-01-23T14:51:35+00:00"
+>>>>>>> Ndieme
         },
         {
             "name": "symfony/event-dispatcher-contracts",
@@ -5121,6 +5191,9 @@
         {
             "name": "symfony/string",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Ndieme
             "version": "v6.4.3",
             "source": {
                 "type": "git",
@@ -5135,6 +5208,7 @@
             },
             "require": {
                 "php": ">=8.1",
+<<<<<<< HEAD
 =======
             "version": "v7.0.3",
             "source": {
@@ -5151,6 +5225,8 @@
             "require": {
                 "php": ">=8.2",
 >>>>>>> baptiste
+=======
+>>>>>>> Ndieme
                 "symfony/polyfill-ctype": "~1.8",
                 "symfony/polyfill-intl-grapheme": "~1.0",
                 "symfony/polyfill-intl-normalizer": "~1.0",
@@ -5161,11 +5237,15 @@
             },
             "require-dev": {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Ndieme
                 "symfony/error-handler": "^5.4|^6.0|^7.0",
                 "symfony/http-client": "^5.4|^6.0|^7.0",
                 "symfony/intl": "^6.2|^7.0",
                 "symfony/translation-contracts": "^2.5|^3.0",
                 "symfony/var-exporter": "^5.4|^6.0|^7.0"
+<<<<<<< HEAD
 =======
                 "symfony/error-handler": "^6.4|^7.0",
                 "symfony/http-client": "^6.4|^7.0",
@@ -5173,6 +5253,8 @@
                 "symfony/translation-contracts": "^2.5|^3.0",
                 "symfony/var-exporter": "^6.4|^7.0"
 >>>>>>> baptiste
+=======
+>>>>>>> Ndieme
             },
             "type": "library",
             "autoload": {
@@ -5212,10 +5294,14 @@
             ],
             "support": {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "source": "https://github.com/symfony/string/tree/v6.4.3"
 =======
                 "source": "https://github.com/symfony/string/tree/v7.0.3"
 >>>>>>> baptiste
+=======
+                "source": "https://github.com/symfony/string/tree/v6.4.3"
+>>>>>>> Ndieme
             },
             "funding": [
                 {
@@ -5232,10 +5318,14 @@
                 }
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2024-01-25T09:26:29+00:00"
 =======
             "time": "2024-01-29T15:41:16+00:00"
 >>>>>>> baptiste
+=======
+            "time": "2024-01-25T09:26:29+00:00"
+>>>>>>> Ndieme
         },
         {
             "name": "symfony/translation",
@@ -6028,6 +6118,7 @@
         {
             "name": "laravel/pint",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "v1.13.11",
             "source": {
                 "type": "git",
@@ -6039,6 +6130,8 @@
                 "url": "https://api.github.com/repos/laravel/pint/zipball/60a163c3e7e3346a1dec96d3e6f02e6465452552",
                 "reference": "60a163c3e7e3346a1dec96d3e6f02e6465452552",
 =======
+=======
+>>>>>>> Ndieme
             "version": "v1.14.0",
             "source": {
                 "type": "git",
@@ -6049,7 +6142,10 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/pint/zipball/6b127276e3f263f7bb17d5077e9e0269e61b2a0e",
                 "reference": "6b127276e3f263f7bb17d5077e9e0269e61b2a0e",
+<<<<<<< HEAD
 >>>>>>> baptiste
+=======
+>>>>>>> Ndieme
                 "shasum": ""
             },
             "require": {
@@ -6103,6 +6199,7 @@
                 "source": "https://github.com/laravel/pint"
             },
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2024-02-13T17:20:13+00:00"
         },
         {
@@ -6118,6 +6215,8 @@
                 "url": "https://api.github.com/repos/laravel/sail/zipball/3047e1a157fad968cc5f6e620d5cbe5c0867fffd",
                 "reference": "3047e1a157fad968cc5f6e620d5cbe5c0867fffd",
 =======
+=======
+>>>>>>> Ndieme
             "time": "2024-02-20T17:38:05+00:00"
         },
         {
@@ -6132,7 +6231,10 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/sail/zipball/a05861ca9b04558b1ec1f36cff521a271a259b6c",
                 "reference": "a05861ca9b04558b1ec1f36cff521a271a259b6c",
+<<<<<<< HEAD
 >>>>>>> baptiste
+=======
+>>>>>>> Ndieme
                 "shasum": ""
             },
             "require": {
@@ -6182,10 +6284,14 @@
                 "source": "https://github.com/laravel/sail"
             },
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2024-02-08T15:24:21+00:00"
 =======
             "time": "2024-02-20T15:11:00+00:00"
 >>>>>>> baptiste
+=======
+            "time": "2024-02-20T15:11:00+00:00"
+>>>>>>> Ndieme
         },
         {
             "name": "mockery/mockery",
@@ -8182,6 +8288,9 @@
         {
             "name": "symfony/yaml",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Ndieme
             "version": "v6.4.3",
             "source": {
                 "type": "git",
@@ -8204,6 +8313,7 @@
             },
             "require-dev": {
                 "symfony/console": "^5.4|^6.0|^7.0"
+<<<<<<< HEAD
 =======
             "version": "v7.0.3",
             "source": {
@@ -8227,6 +8337,8 @@
             "require-dev": {
                 "symfony/console": "^6.4|^7.0"
 >>>>>>> baptiste
+=======
+>>>>>>> Ndieme
             },
             "bin": [
                 "Resources/bin/yaml-lint"
@@ -8258,10 +8370,14 @@
             "homepage": "https://symfony.com",
             "support": {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "source": "https://github.com/symfony/yaml/tree/v6.4.3"
 =======
                 "source": "https://github.com/symfony/yaml/tree/v7.0.3"
 >>>>>>> baptiste
+=======
+                "source": "https://github.com/symfony/yaml/tree/v6.4.3"
+>>>>>>> Ndieme
             },
             "funding": [
                 {
@@ -8278,10 +8394,14 @@
                 }
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2024-01-23T14:51:35+00:00"
 =======
             "time": "2024-01-23T15:02:46+00:00"
 >>>>>>> baptiste
+=======
+            "time": "2024-01-23T14:51:35+00:00"
+>>>>>>> Ndieme
         },
         {
             "name": "theseer/tokenizer",

@@ -2,9 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Http\Controllers\ControllerDonoval;
 =======
 >>>>>>> baptiste
+=======
+use App\Http\Controllers\AuthController;
+>>>>>>> Ndieme
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +25,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 Route::get('/mounir', [ControllerDonoval::class, 'wardia']);
@@ -29,3 +34,23 @@ Route::get('/mounir', [ControllerDonoval::class, 'wardia']);
 // php artisan make:controller controllerDonoval
 =======
 >>>>>>> baptiste
+=======
+
+
+
+
+// Route pour afficher le formulaire d'inscription
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register.form');
+
+// Route pour traiter la soumission du formulaire d'inscription
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+// Route pour afficher le formulaire de connexion
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
+
+// Route pour traiter la soumission du formulaire de connexion
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+// Route pour déconnecter l'utilisateur
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+>>>>>>> Ndieme
