@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+<<<<<<< HEAD
 use App\Http\Controllers\ControllerDonoval;
+=======
+>>>>>>> baptiste
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +20,12 @@ use App\Http\Controllers\ControllerDonoval;
 Route::get('/', function () {
     return view('welcome');
 });
+<<<<<<< HEAD
 
 
 Route::get('/mounir', [ControllerDonoval::class, 'wardia']);
 
 
 // php artisan make:controller controllerDonoval
+=======
+>>>>>>> baptiste
