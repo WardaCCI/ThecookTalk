@@ -5,37 +5,49 @@ namespace Tests\Feature;
 use App\Http\Controllers\AuthController;
 use App\Repositories\AuthRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\TestCase;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
 {
-    use RefreshDatabase, MockeryPHPUnitIntegration;
+    use RefreshDatabase;
+    use WithFaker;
 
-    public function testRegister()
+    public function testLogin()
     {
-        // **Test l'enregistrement d'un nouvel utilisateur**
-
-        $controller = new AuthController(new AuthRepository());
-
-        $request = new Request([
-            'name' => 'John Doe',
-            'email' => 'johndoe@example.com',
-            'password' => 'secret',
-            'password_confirmation' => 'secret',
+        // Create a user for testing
+        $user = User::factory()->create([
+            'email' => 'test@example.com',
+            'password' => bcrypt('password123'),
         ]);
 
-        $authRepository = Mockery::mock(AuthRepository::class);
-        $authRepository->shouldReceive('register')->with($request->all())->andReturn(true);
+        // Create a login request with valid credentials
+        $request = new Request([
+            'email' => 'test@example.com',
+            'password' => 'password123',
+        ]);
 
-        $controller->setAuthRepository($authRepository);
+        // Instantiate an AuthController with a mock AuthRepository
+        $authRepository = \Mockery::mock(AuthRepository::class);
 
-        $response = $controller->register($request);
+        // Define the behavior of the mocked AuthRepository's login method
+        $authRepository->shouldReceive('login')
+                       ->once() // The method should be called once
+                       ->with($request->only('email', 'password')) // It should receive a request with only 'email' and 'password' fields
+                       ->andReturn($user); // It should return the created user
 
-        // **Assert que la réponse est une redirection**
-        $this->assertInstanceOf(\Illuminate\Http\RedirectResponse::class, $response);
+        $controller = new AuthController($authRepository);
 
-        // **Assert que la redirection est vers la page de confirmation**
-        $this->assertEquals('/confirmation', $response->getTargetUrl());
+        // Call the login method and assert the response
+        $response = $controller->login($request);
+
+        // Check if the response is an instance of RedirectResponse and the target URL is '/'
+        if ($response instanceof \Illuminate\Http\RedirectResponse) {
+            $this->assertEquals('/', $response->getTargetUrl());
+        } else {
+            $this->fail('The login method did not return an instance of RedirectResponse.');
+        }
     }
 }

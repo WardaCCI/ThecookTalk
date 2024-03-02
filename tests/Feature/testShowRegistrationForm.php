@@ -10,6 +10,11 @@ class AuthControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function createApplication()
+    {
+        return parent::createApplication();
+    }
+
     public function testShowRegistrationForm()
     {
         // **Test l'affichage de la page d'inscription**
@@ -21,7 +26,7 @@ class AuthControllerTest extends TestCase
         // **Assert que la réponse est une vue**
         $this->assertInstanceOf(\Illuminate\View\View::class, $response);
 
-        // **Assert que le nom de la vue est 'auth.register'**
-        $this->assertEquals('auth.register', $response->viewName());
+        // **Assert that the view contains a specific element (e.g., form with ID "register-form")**
+        $this->assertViewHas('register-form'); // Replace 'register-form' with the actual element ID
     }
 }

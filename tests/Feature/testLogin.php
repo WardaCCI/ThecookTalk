@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use App\Http\Controllers\AuthController;
 use App\Repositories\AuthRepository;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Tests\TestCase;
@@ -12,42 +14,36 @@ use Tests\TestCase;
 class AuthControllerTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
     public function testLogin()
     {
-        // Création d'un faux utilisateur pour les tests
-        $user = new \App\Models\User();
-        $user->email = 'johndoe@example.com';
-        $user->password = bcrypt('secret');
-        $user->save();
-
-        // Création d'un faux AuthRepository pour simuler la méthode login
-        $authRepository = $this->getMockBuilder(AuthRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $authRepository->expects($this->once())
-            ->method('login')
-            ->willReturn($user);
-
-        // Création de l'instance du contrôleur avec le faux AuthRepository
-        $controller = new AuthController(new AuthRepository());
-
-        // Appel de la méthode de connexion du contrôleur avec les identifiants de l'utilisateur
-        $request = new Request([
-            'email' => 'johndoe@example.com',
-            'password' => 'secret',
+        // Create a user for testing
+        $user = User::factory()->create([
+            'email' => 'test@example.com',
+            'password' => bcrypt('password123'),
         ]);
+
+        // Create a login request with valid credentials
+        $request = new Request([
+            'email' => 'test@example.com',
+            'password' => 'password123',
+        ]);
+
+        // Instantiate an AuthController with a mock AuthRepository
+        $authRepository = \Mockery::mock(AuthRepository::class);
+        $authRepository->shouldReceive('login')->once()->with($request->only('email', 'password'))->andReturn($user);
+
+        $controller = new AuthController($authRepository);
+
+        // Call the login method and assert the response
         $response = $controller->login($request);
 
-        // Vérification que la méthode login du AuthRepository a bien été appelée
-        $this->assertTrue(true); // Assertion de réussite de l'appel de la méthode login
-
-        // Vérification que la réponse est une redirection
-        $this->assertInstanceOf(RedirectResponse::class, $response);
-
-        // Vérification que la redirection est effectuée vers la page d'accueil
-        $this->assertEquals(302, $response->getStatusCode());
-        $this->assertEquals('/', $response->getTargetUrl());
+        // Check if the response is an instance of RedirectResponse and the target URL is '/'
+        if ($response instanceof \Illuminate\Http\RedirectResponse) {
+            $this->assertEquals('/', $response->getTargetUrl());
+        } else {
+            $this->fail('The login method did not return an instance of RedirectResponse.');
+        }
     }
 }
