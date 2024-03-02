@@ -1,14 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use App\Http\Controllers\ControllerDonoval;
-=======
->>>>>>> baptiste
-=======
 use App\Http\Controllers\AuthController;
->>>>>>> Ndieme
 
 /*
 |--------------------------------------------------------------------------
@@ -24,17 +17,6 @@ use App\Http\Controllers\AuthController;
 Route::get('/', function () {
     return view('welcome');
 });
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-Route::get('/mounir', [ControllerDonoval::class, 'wardia']);
-
-
-// php artisan make:controller controllerDonoval
-=======
->>>>>>> baptiste
-=======
 
 
 
@@ -53,4 +35,3 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 // Route pour déconnecter l'utilisateur
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
->>>>>>> Ndieme
