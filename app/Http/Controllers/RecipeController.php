@@ -2,41 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; // Ajoutez cette ligne pour utiliser la classe Request
-use App\Repository\Recipe; // Assurez-vous d'importer la classe du référentiel RecipeRepository ou ajustez selon votre structure de projet
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
-use App\Repository\Step;
-use App\Repository\Ingredient;
-use App\Repository\Images;
-use App\Repository\Quantity;
+use Illuminate\Http\Request;
+use App\Repositories\RecipeRepository;
+use App\Repositories\StepRepository;
+use App\Repositories\IngredientRepository;
+use App\Repositories\ImagesRepository;
+use App\Repositories\QuantityRepository;
+use App\Repositories\UnitsRepository;
+use Exception;
 
 class Controller extends BaseController
 {
+   
+    protected $recipeId;
   
 
-    // Assurez-vous que $repository est correctement initialisé
-    protected $repository;
-    
-    
-    public function __construct(Recipe $recipeRepository)
+    public function __construct(RecipeRepository $recipeRepository, StepRepository $stepRepository,IngredientRepository $ingredientRepository, ImagesRepository $imagesRepository,QuantityRepository $quantityRepository,UnitsRepository $unitsRepository )
     {
-        $this->repository = $recipeRepository;
+        $this->recipeRepository = $recipeRepository;
+        $this->stepRepository =  $stepRepository;
+        $this->ingredientRepository =  $ingredientRepository;
+        $this->imagesRepository =  $imagesRepository;
+        $this->quantityRepository =  $quantityRepository;
+        $this->unitsRepository =  $quantityRepository;
     }
+
     public function insertRecipe(Request $request)
     {
-        // Définissez vos règles de validation ici
         $rules = [
             'recipename' => 'required|unique:recipes',
             'time' => 'required',
-            'cookingtype' => 'required|in:four,barbeque,poele,vapeur,sans cuisson', // Correction ici
+            'cookingtype' => 'required|in:four,barbeque,poele,vapeur,sans cuisson',
             'category' => 'required|in:entree,plat,dessert,boisson',
             'difficulty' => 'required|in:difficile,facile,moyen',
-            
+            'id_user' => 'required',
         ];
 
-        // Définissez vos messages personnalisés ici
         $messages = [
             'recipename.required' => 'Le nom de la recette est requis.',
             'recipename.unique' => 'Le nom de la recette existe déjà.',
@@ -44,63 +45,85 @@ class Controller extends BaseController
             'category.required' => 'Le type de plat de la recette est requis.',
             'difficulty.required' => 'Le niveau de difficulté de la recette est requis.',
             'time.required' => 'Le temps de cuisson est requis.',
-            // Ajoutez d'autres messages pour les autres champs
+            'id_user.required' => 'L\'id user est requis.',
         ];
 
-        // Validez les données avec la fonction validate
-        $validatedData = $request->validate( $rules, $messages);
+        $validatedData = $request->validate($rules, $messages);
 
-        // Si la validation réussit, insérez les données dans la base de données
-        $recipeId = $this->repository->addRecipe([
-            "cookingtype" => $validatedData['cookingtype'],
-            "recipename" => $validatedData['recipename'],
-            "time" =>$validatedData['time'],
-            "category" => $validatedData['category'],
-            "difficulty" => $validatedData['difficulty'],
-            "id_user" =>$validatedData['id_user']]
-        );
+        try {
+            $cookingtype = $validatedData['cookingtype'];
+            $recipename = $validatedData['recipename'];
+            $time = $validatedData['time'];
+            $category = $validatedData['category'];
+            $difficulty = $validatedData['difficulty'];
+            $id_user = $validatedData['id_user'];
 
-        return $recipeId;
+            $recipeId = $this->recipeRepository->addRecipe([
+                "cookingtype" => $cookingtype,
+                "recipename" => $recipename,
+                "time" => $time,
+                "category" => $category,
+                "difficulty" => $difficulty,
+                "id_user" => $id_user
+            ]);
+
+
+
+              // Insertion des étapes
+              $this->insertSteps($request);
+
+              // Insertion des ingrédients
+              $this->insertIngredients($request);
+  
+              // Insertion des images
+              $this->insertImages($request );
+  
+              // Insertion des quantités
+              $this->insertQuantities($request);
+
+               // Insertion des units
+               $this->insertUnits($request);
+  
+
+            
+            return redirect()->route('dashboard.show');
+        } catch (Exception $exception) {
+            return redirect()->back()->withInput()->withErrors("La recette n'est pas ajoutée");
+        }
     }
-
-
 
     public function insertSteps(Request $request)
     {
-        // Définissez vos règles de validation ici
         $rules = [
             'recipe_id' => 'required|exists:recipes,id',
             'steps.*.description' => 'required',
         ];
-        
-        // Définissez vos messages personnalisés ici
+
         $messages = [
             'recipe_id.required' => 'L\'ID de la recette est requis.',
             'recipe_id.exists' => 'L\'ID de la recette spécifiée n\'existe pas.',
             'steps.*.description.required' => 'La description de l\'étape est requise.',
         ];
-        
-        // Validez les données avec la fonction validate
+
         $validatedData = $request->validate($rules, $messages);
-        
-        // Récupérez l'ID de la recette depuis les données validées
-        $recipeId = $validatedData['recipe_id'];
-        
-        // Si la validation réussit, insérez les données dans la base de données
-        $steps = $validatedData['steps'];
-        
-        foreach ($steps as $step) {
-            $this->repository->addStep($recipeId, $step['description']);
+
+        try {
+            $recipeId = $validatedData['recipe_id'];
+            $steps = $validatedData['steps'];
+
+            foreach ($steps as $step) {
+                $this->stepRepository->addStep($recipeId, $step['description']);
+            }
+        } catch (Exception $exception) {
+            return redirect()->back()->withInput()->withErrors("Erreur lors de l'ajout des étapes");
         }
     }
-
 
     public function insertIngredients(Request $request)
     {
         $rules = [
             'ingredients.*.name' => 'required',
             'ingredients.*.calorie' => 'required',
-            
         ];
 
         $messages = [
@@ -110,87 +133,109 @@ class Controller extends BaseController
 
         $validatedData = $request->validate($rules, $messages);
 
-       
-        $ingredients = $validatedData['ingredients'];
+        try {
+            $ingredients = $validatedData['ingredients'];
 
-        foreach ($ingredients as $ingredient) {
-            $this->recipeRepository->addIngredient( $ingredient['name'], $ingredient['calorie']);
+            foreach ($ingredients as $ingredient) {
+                $this->ingredientRepository->addIngredient($ingredient['name'], $ingredient['calorie']);
+            }
+        } catch (Exception $exception) {
+            return redirect()->back()->withInput()->withErrors("Erreur lors de l'ajout des ingrédients");
         }
-
-        // Retournez une réponse appropriée, par exemple, une réponse JSON ou une redirection
     }
 
     public function insertImages(Request $request)
     {
         $rules = [
-          
-            'images.*.image' => 'required',
+            'images.*'  => 'required',
             'recipe_id' => 'required|exists:recipes,id',
         ];
-    
+
         $messages = [
             'recipe_id.required' => 'L\'ID de la recette est requis.',
             'recipe_id.exists' => 'L\'ID de la recette spécifiée n\'existe pas.',
             'images.*.image.required' => 'L\'image est requis.',
         ];
-    
-        $validatedData = $request->validate($rules, $messages);
-    
-        $recipeId = $validatedData['recipe_id'];
-        $images = $validatedData['images'];
-    
-        foreach ($images as $image) {
-            $this->imageRepository->addImage($image['image'], $recipeId);
-        }
-    
-        // Retournez une réponse appropriée, par exemple, une réponse JSON ou une redirection
-    }
-    
 
-    public function insertQuantities(Request $request)
-    {
-        // Validation des quantités avec ajout de la règle pour l'id_recipe
-        $rules = [
-            'id_ingredient' => 'required|exists:ingredients,id',
-            'quantities.*.unit' => 'required|string|max:5',
-            'quantities.*.quantity' => 'required|integer',
-            'recipe_id' => 'required|exists:recipes,id',
-            
-        ];
-    
-        // Messages personnalisés pour les quantités
-        $messages = [
-            'id_ingredient.required' => 'L\'id de l\'ingrédient est requis.',
-            'id_ingredient.exists' => 'L\'id de l\'ingrédient spécifié n\'existe pas.',
-            'quantities.*.unit.required' => 'L\'unité de la quantité est requise.',
-            'quantities.*.unit.max' => 'L\'unité de la quantité ne doit pas dépasser 5 caractères.',
-            'quantities.*.quantity.required' => 'La quantité est requise.',
-            'quantities.*.quantity.integer' => 'La quantité doit être un nombre entier.',
-            'recipe_id.required' => 'L\'ID de la recette est requis.',
-            'recipe_id.exists' => 'L\'ID de la recette spécifiée n\'existe pas.',
-        ];
-    
-        // Validez les données avec la fonction validate
         $validatedData = $request->validate($rules, $messages);
+
+        try {
+
+     
+
+            $recipeId = $validatedData['recipe_id'];
+            $images = $request->file('images');
+            $path = 'uploads/imagesRecipe/';
     
-        // Si la validation réussit, insérez les données dans la base de données
-        $ingredientId = $validatedData['id_ingredient'];
+            foreach ($images as $image) {
+                $extension = $image->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $image->move($path, $filename);
+                $this->imagesRepository->addImage($path . $filename, $recipeId); // Enregistrer le chemin complet de l'image
+            }
+        } catch (Exception $exception) {
+            return redirect()->back()->withInput()->withErrors("Erreur lors de l'ajout des images");
+        }
+    }
+
+    public function insertUnits(Request $request)
+{
+    $rules = [
+        'units.*.unit' => 'required',
+    ];
+
+    $messages = [
+        'units.*.unit.required' => 'Le nom de l\'unité est requis.',
+    ];
+
+    $validatedData = $request->validate($rules, $messages);
+
+    try {
+        $units = $validatedData['units'];
+
+        foreach ($units as $unit) {
+            $this->unitRepository->addUnit($unit['unit']);
+        }
+    } catch (Exception $exception) {
+        return redirect()->back()->withInput()->withErrors("Erreur lors de l'ajout des unités");
+    }
+}
+
+public function insertQuantities(Request $request)
+{
+    $rules = [
+        'quantities.*.quantity' => 'required|integer',
+        'quantities.*.unit_id' => 'required|exists:units,id',
+        'ingredient_id' => 'required|exists:ingredients,id',
+        'recipe_id' => 'required|exists:recipes,id',
+    ];
+
+    $messages = [
+        'quantities.*.quantity.required' => 'La quantité est requise.',
+        'quantities.*.quantity.integer' => 'La quantité doit être un entier.',
+        'quantities.*.unit_id.required' => "L'ID de l'unité est requis.",
+        'quantities.*.unit_id.exists' => "L'ID de l'unité spécifiée n'existe pas.",
+        'ingredient_id.required' => "L'ID de l'ingrédient est requis.",
+        'ingredient_id.exists' => "L'ID de l'ingrédient spécifié n'existe pas.",
+        'recipe_id.required' => "L'ID de la recette est requis.",
+        'recipe_id.exists' => "L'ID de la recette spécifiée n'existe pas.",
+    ];
+
+    $validatedData = $request->validate($rules, $messages);
+
+    try {
         $recipeId = $validatedData['recipe_id'];
         $quantities = $validatedData['quantities'];
-    
+
         foreach ($quantities as $quantity) {
-            $this->repository->addQuantity($recipeId, $ingredientId, $quantity['unit'], $quantity['quantity']);
+            $this->quantiteRepository->ajouterQuantite($quantity['quantity'], $quantity['unit_id'], $validatedData['ingredient_id'], $recipeId);
         }
-    
-        // Retournez une réponse ou redirigez l'utilisateur vers une autre page
+    } catch (Exception $exception) {
+        return redirect()->back()->withInput()->withErrors("Erreur lors de l'ajout des quantités");
     }
-
-
-
-
 }
 
 
-
+}
 
 
