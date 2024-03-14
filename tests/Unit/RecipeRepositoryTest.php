@@ -37,7 +37,7 @@ class RecipeRepositoryTest extends TestCase
             'cookingtype' => $cookingtype,
             'category' => $category,
             'difficulty' => $difficulty,
-            'id_user' => $idUser,
+            'id_user' => 1,
         ]);
     }
 }
