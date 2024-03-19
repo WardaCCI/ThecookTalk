@@ -1,4 +1,4 @@
-<!-- resources/views/recettes/index.blade.php -->
+<!-- resources/views/recettes/index.blade.phpyyyyy -->
 @extends('layouts.app') 
 @section('content')
 
