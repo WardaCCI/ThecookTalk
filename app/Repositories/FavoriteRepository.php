@@ -3,7 +3,7 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
 
-class Favorite
+class FavoriteRepository
 {
     public function addFavorite(int $idRecette, int $idUtilisateur): int
     {

@@ -1,9 +1,11 @@
 <?php
 namespace App\Repositories;
 
+use Exception;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-class Recipe
+class RecipeRepository
 {
     public function addRecipe(string $cookingtype, string $recipename, string $time, string $category, string $difficulty, int $idUser): int
     {

@@ -3,7 +3,7 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
 
-class Ingredient {
+class IngredientRepository {
       public function addIngredient(int $recipeId, string $name, string $unit): void
     {
         // Vérifiez d'abord si l'ingrédient existe déjà pour cette recette

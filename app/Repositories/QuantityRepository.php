@@ -3,7 +3,7 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
 
-class Quantite
+class QuantityRepository
 {
     public function ajouterQuantite(int $quantite, int $idUnite, int $idIngredient, int $idRecette): int
     {

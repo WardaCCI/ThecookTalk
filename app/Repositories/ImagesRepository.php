@@ -1,9 +1,9 @@
 <?php
-namespace App\Repository;
+namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
 
-class Images
+class ImagesRepository
 {
     public function addImage(string $cheminImage, int $idRecette): int
     {

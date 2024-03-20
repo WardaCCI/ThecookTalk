@@ -2,7 +2,7 @@
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
-class Units
+class UnitsRepository
 {
     /**
      * Run the migrations.

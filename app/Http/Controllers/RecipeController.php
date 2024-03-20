@@ -10,8 +10,9 @@ use App\Repositories\ImagesRepository;
 use App\Repositories\QuantityRepository;
 use App\Repositories\UnitsRepository;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
-class Controller extends BaseController
+class RecipeController 
 {
    
     protected $recipeId;
@@ -236,6 +237,95 @@ public function insertQuantities(Request $request)
 }
 
 
-}
 
+
+// Dans votre contrôleur
+public function showRecipe($id)
+{
+   $recipeId = $id;
+     // Récupérer les informations sur la recette depuis la base de données
+     $recipe = DB::table('recipes')->where('id', $id)->first();
+
+     // Récupérer les ingrédients et les étapes de la recette
+     $recipename = explode(',', $recipe->recipename);
+     $time = explode(',', $recipe->time);
+     $cookingtype = explode(',', $recipe->cookingtype);
+     $difficulty = explode(',', $recipe->difficulty);
+     $category = explode(',', $recipe->category);
+     
+ 
+     // Récupérer les quantités de la recette depuis la base de données
+     $quantities = DB::table('quantites')->where('id_recipe', $id)->get();
+
+     
+     $ingredientCalories= [];
+
+     foreach ($quantities as $quantity) {
+         // Récupérer le nom de l'ingrédient correspondant à l'ID
+         $ingredient = DB::table('ingredients')->where('id', $quantity->id_ingredient)->first();
+        
+         // Ajouter le nom de l'ingrédient et la quantité correspondante dans le tableau
+         $ingredientCalories[] = [
+             'ingredient_name' => $ingredient->ingredientname,
+             'calorie' => $ingredient->calorie,
+             
+         ];
+     }
+     
+     
+     
+     // Tableau pour stocker les quantités et les noms des ingrédients
+     $ingredientQuantities = [];
+
+     foreach ($quantities as $quantity) {
+         // Récupérer le nom de l'ingrédient correspondant à l'ID
+         $ingredient = DB::table('ingredients')->where('id', $quantity->id_ingredient)->first();
+         $unit = DB::table('units')->where('id', $quantity->id_unit)->first();
+
+         // Ajouter le nom de l'ingrédient et la quantité correspondante dans le tableau
+         $ingredientQuantities[] = [
+             'ingredient_name' => $ingredient->ingredientname,
+             'quantity' => $quantity->quantity,
+             'unit' => $unit->unit
+         ];
+     }
+
+  $steps = DB::table('steps')->where('id_recipe', $id)->get();
+
+     
+  $stepRecipe= [];
+
+  foreach ($steps as $step) {
+    
+      $stepRecipe[] = [
+          'description' => $step->description,
+         
+          
+      ];
+  }
+  
+  $comments = DB::table('stars_comments')->where('id_recipe', $id)->get();
+   $commentRecipes = [];
+
+   foreach ($comments as $comment) {
+       $pseudo = DB::table('users')->where('id', $comment->id_user)->first();
+       
+
+       if ($comment->comment !== null) {
+        $commentRecipes[] = [
+            'pseudo' => $pseudo->username,
+            'note' => $comment->stars,
+            'comment' => $comment->comment
+        ];
+    }
+   }
+
+   
+ 
+ 
+     // Retourner la vue avec les données
+     return view('recipeView.recipe', compact('recipename', 'time', 'cookingtype', 'difficulty', 'category', 'ingredientCalories','ingredientQuantities','stepRecipe','commentRecipes','recipeId'));
+ }
+
+}
 

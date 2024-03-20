@@ -3,7 +3,7 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
 
-class Step
+class StepRepository
 {
     public function addStep(string $description, int $idRecette): int
     {
