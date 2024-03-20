@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -138,3 +139,12 @@ Route::put('/users/{userId}/dashboard/password', [AuthController::class, 'update
 Route::post('/users/{userId}/delete', [AuthController::class, 'deleteUser'])
     ->where('userId', '[0-9]+')
     ->name('user.delete');
+
+    Route::get('/recipe/{id}', [RecipeController::class, 'showRecipe'])->name('recipe.show');
+
+    // Afficher le formulaire de commentaire
+Route::post('/recipe/{id}/comment', [CommentController::class, 'showCommentForm'])->name('comment.form');
+
+// Traiter le formulaire de commentaire
+Route::post('/recipe/{id}', [CommentController::class, 'storeComment'])->name('comment.store');
+

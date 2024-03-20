@@ -1,0 +1,165 @@
+.comment-section{
+    text-align: center; /* Centre le texte */
+}
+.text-center {
+    text-align: center; /* Centre le texte */
+   
+}
+
+.recipe-name {
+    font-size: 24px; /* Taille du texte */
+    font-weight: bold; /* Texte en gras */
+    margin-bottom: 400px; /* Espacement en bas */
+    
+}
+
+
+
+
+.recipe-time{
+   
+    font-size: 18px ; /* Utilisation de !important pour s'assurer que la taille de police est appliquée */
+   
+
+}
+
+
+.recipe-container {
+    display: flex; /* Utilise flexbox */
+    justify-content: space-between; /* Distribue les éléments horizontalement avec un espace égal entre eux */
+}
+
+.recipe-time,
+.recipe-cookingtype,
+.recipe-difficulty,
+.recipe-category {
+    flex: 1; /* Les éléments prennent une part égale de l'espace disponible */
+    text-align: center; /* Centre le texte */
+    margin-bottom: 300px;
+   
+    
+}
+
+
+.recipe-container > div {
+    margin: 0 10px; /* Ajoute un espacement entre les éléments */
+}
+
+
+#personne {
+    width: 50px; /* Vous pouvez ajuster cette valeur selon vos besoins */
+    text-align: right;
+    margin-top: 100px; 
+}
+
+.text-center1 {
+    flex: 1;
+    text-align: center; /* Centre le texte */
+    margin-top: 50px; 
+}
+
+
+
+.ingredients-container {
+    display: flex; /* Utilise flexbox */
+    justify-content: space-between; /* Distribue les ingrédients horizontalement avec un espacement égal */
+    margin-top: 25px;
+    padding: 20px; /* Ajout de rembourrage à la liste pour créer un espace entre le contenu et le bord */
+    background-color: #f2f2f2; /* Couleur de fond gris clair */
+    border-radius: 5px; /* Ajout d'un léger arrondi aux coins */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ajout d'une ombre légère pour donner de la profondeur */
+}
+
+
+
+
+.ingredient-calories {
+    flex: 1; /* Chaque ingrédient prendra la même largeur */
+      padding: 20px; /* Ajout de rembourrage à la liste pour créer un espace entre le contenu et le bord */
+    background-color: #f2f2f2; /* Couleur de fond gris clair */
+    border-radius: 5px; /* Ajout d'un léger arrondi aux coins */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ajout d'une ombre légère pour donner de la profondeur */
+}
+
+
+
+
+.value-display {
+    font-size: 24px; /* Taille du texte */
+    margin-bottom: 10px; /* Espacement en bas */
+}
+
+.step-list {
+    list-style-type: decimal;
+    margin-left: 20px; /* ou toute autre marge désirée */
+    padding: 20px; /* Ajout de rembourrage à la liste pour créer un espace entre le contenu et le bord */
+    background-color: #f2f2f2; /* Couleur de fond gris clair */
+    border-radius: 5px; /* Ajout d'un léger arrondi aux coins */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ajout d'une ombre légère pour donner de la profondeur */
+}
+
+.step-item {
+    margin-bottom: 20px; /* espace entre chaque étape */
+}
+
+
+.rating-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+  }
+  
+  .rating {
+    display: inline-block;
+  }
+  
+  .star {
+    font-size: 24px;
+    cursor: pointer;
+   
+  }
+  
+
+  .star.selected {
+    color: orange; /* Mettre en surbrillance les étoiles sélectionnées en orange */
+}
+
+
+  .star:hover,
+  .star:hover ~ .star {
+    color: gold;
+  }
+  
+
+  .comment-container {
+    border: 2px solid black;
+    padding: 10px;
+    background-color: white;
+    margin-top: 20px; /* ajustez la marge en fonction de vos besoins */
+    margin-bottom: 20px; /* ajustez la marge en fonction de vos besoins */
+    border-radius: 10px; /* ajoutez des coins arrondis */
+}
+
+  .text-center2 {
+    flex: 1;
+    text-align: center; /* Centre le texte */
+    margin-top: 10px; 
+}
+   
+
+
+  .star1 {
+    font-size: 18px;
+    cursor: pointer;
+    color: gold;
+  }
+
+
+
+
+  .comment-button  {
+    display: flex; /* Utilise flexbox */
+    justify-content: space-between; /* Distribue les éléments horizontalement avec un espace égal entre eux */
+    margin-right: 300px;
+    margin-left: 300px;
+}
