@@ -11,7 +11,7 @@
             <a href="{{ route('recettes.show', $recette->id) }}">{{ $recette->titre }}</a>
             
             <!-- Affichez d'autres détails de la recette si nécessaire -->
-            <link rel="stylesheet" href="{{ asset('public\css\styles.css') }}">
+            <link rel="stylesheet" href="{{ asset('public\css\styleCreate.css') }}">
         </li>
     @endforeach
 </ul>

@@ -1,0 +1,61 @@
+/* Stylisation du titre */
+#title {
+    margin-bottom: 20px;
+    font-size: 3rem;
+    font : bold;
+    background-color: #eac4c0;
+    padding: 10px; 
+}
+/* Définition de la police de caractères pour tous les éléments texte */
+body {
+    font-family: Arial, sans-serif; /* Choix de la police de caractères */
+}
+
+/* Stylisation des titres des champs */
+.form-label {
+    font-weight: bold;
+    font-size: 1.2rem; /* Taille de police uniforme pour tous les titres */
+    text-transform: capitalize; /* Convertit la première lettre de chaque mot en majuscule */
+}
+
+/* Stylisation des titres */
+h2, h3, h4, h5, h6 {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem; /* Taille de police uniforme pour tous les titres */
+    text-transform: capitalize;
+}
+
+
+/* Stylisation des boutons */
+.btn {
+    margin-right: 10px;
+   
+}
+
+/* Stylisation des listes d'ingrédients et d'étapes */
+.list-group-item {
+    margin-bottom: 10px;
+}
+
+/* Stylisation des images */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    
+}
+.container {
+    max-width: 850px; /* Réduire la largeur maximale du conteneur du formulaire */
+    margin: 0 auto; /* Centrer le formulaire horizontalement */
+    padding: 0px; /* Ajouter un espace intérieur pour le formulaire */
+}
+
+/* Augmenter l'espacement entre les lignes */
+.form-group {
+    margin-bottom: 20px; /* Espacement entre les groupes de champs */
+}
+
+.step_description {
+    height: 200px; /* Hauteur de la zone de texte */
+}
