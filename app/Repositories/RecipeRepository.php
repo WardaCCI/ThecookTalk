@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Recipe;
+use League\Flysystem\Visibility;
 
 final class RecipeRepository
 {
@@ -50,5 +51,10 @@ final class RecipeRepository
     {
         Recipe::where('id', $recipeId)
             ->delete();
+    }
+
+    public function getRecipes() 
+    { 
+        return Recipe::where('visibility', true)->get(); 
     }
 }

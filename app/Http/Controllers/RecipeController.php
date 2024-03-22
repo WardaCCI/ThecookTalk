@@ -54,6 +54,16 @@ class RecipeController extends Controller
         return view('recipes/recipe_create_form', ['ingredients' => $ingredients, 'units' => $units]);
     }
 
+    public function showRecipes()
+    {
+        try {
+           $recipes = $this-> recipeRepository->getRecipes();
+        } catch (Exception $e) {
+            return redirect()->back()->with('warning', "Impossible de charger la page de la recette");
+        }
+
+        return view('recipes/recipes', ['recipes' => $recipes, 'recipeimages']);
+    }
 
     /**
      * 
@@ -66,7 +76,7 @@ class RecipeController extends Controller
         $recipeQuantities = $this->quantityRepository->getRecipeQuantities($recipeId);
 
         return view('recipes/recipe', [
-            'recipe' => $recipe, 
+            'recipe' => $recipe,
             'recipeSteps' => $recipeSteps,
             'recipeImages' => $recipeImages,
             'recipeQuantities' => $recipeQuantities,
@@ -200,7 +210,6 @@ class RecipeController extends Controller
             }
 
             DB::commit();
-
         } catch (Exception $exception) {
             DB::rollBack();
             return redirect()->back()->withInput()->with('recipe_warning', "Impossible de modifier la recette");
@@ -219,7 +228,6 @@ class RecipeController extends Controller
         try {
             $this->recipeRepository->updateField($recipeId, 'visibility', true);
             DB::commit();
-
         } catch (Exception $exception) {
             DB::rollBack();
             return redirect()->back()->withInput()->with('recipe_warning', "Impossible de rendre public la recette");
@@ -238,7 +246,6 @@ class RecipeController extends Controller
         try {
             $this->recipeRepository->updateField($recipeId, 'visibility', false);
             DB::commit();
-
         } catch (Exception $exception) {
             DB::rollBack();
             return redirect()->back()->withInput()->with('recipe_warning', "Impossible de rendre public la recette");

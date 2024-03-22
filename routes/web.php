@@ -219,3 +219,8 @@ Route::delete('/users/{userId}/dashboard/{recipeId}/image/{imageId}', [ImageCont
     ->where('recipeId', '[0-9]+')
     ->where('imageId', '[0-9]+')
     ->name('image.delete');
+    
+/** ------------------------------------------------------------------------------------------------ */
+/** recipes routes */
+Route::get('/recipes', [RecipeController::class, 'showRecipes'])
+    ->name('recipes.show');
