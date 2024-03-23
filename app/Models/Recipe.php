@@ -25,4 +25,9 @@ class Recipe extends Model
     ];
 
     public $timestamps = false;
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'id_recipe');
+    }
+    
 }

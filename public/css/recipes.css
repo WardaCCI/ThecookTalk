@@ -1,0 +1,27 @@
+/* recipes.css */
+
+/* Style pour le titre des recettes */
+.card-title {
+    font-size: 24px; /* Taille de police plus grande */
+    font-weight: bold; /* Texte en gras */
+    color: blue;
+}
+
+/* Style pour les informations de la recette */
+.recipe-info p {
+    margin-bottom: 5px; /* Espacement entre chaque information */
+}
+
+/* Style pour les boutons "Voir la recette" */
+.btn-primary {
+    background-color: green; /* Fond vert */
+    border-color: green; /* Bordure verte */
+}
+
+/* Style pour le body */
+.container {
+    width: 85%; /* Prend 85% de l'espace en largeur */
+}
+.h1 {
+    color: blue;
+}
