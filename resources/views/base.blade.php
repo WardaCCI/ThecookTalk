@@ -12,6 +12,7 @@
     <!-- personal css (public/css/base.css) -->
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard_switch_button.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/rating_stars.css') }}">
     
     <!-- jquery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
@@ -90,6 +91,7 @@
 
     <!-- js for recipe form -->
     <script src="{{ asset('js/recipe_form.js') }}"></script>
+
 </body>
 
 </html>

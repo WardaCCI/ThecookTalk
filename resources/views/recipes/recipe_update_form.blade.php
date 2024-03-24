@@ -4,14 +4,14 @@
 
 <div class="d-flex flex-column gap-4 align-items-center mb-5">
 
-    <h1 class="text-center py-4">Mise à jour de la recette</h1>
+    <h1 class="fw-bold text-center py-4">Mise à jour de la recette</h1>
 
     <!-- recipe form -->
     <form method="POST" action="{{ route('recipe.update', ['userId' => $userId, 'recipeId' => $recipe->id]) }}" class="container col-md-7">
         @csrf
         @method('PUT')
 
-        <div class="mb-5 d-flex flex-column">
+        <div class="d-flex flex-column">
             <!-- header -->
             <div class="d-flex justify-content-between py-3 border-bottom mb-3">
                 <div class="fw-bold fs-6 align-self-center">
@@ -36,7 +36,7 @@
             </div>
             @endif
 
-            @if(session('info'))
+            @if(session('recipe_info'))
             <div class="alert alert-info">
                 {{ session('recipe_info') }} &#128578;
             </div>
@@ -405,6 +405,10 @@
             </div>
         </div>
     </div>
+
+    <a class="fw-bold btn btn-secondary" href="{{ route('dashboard.show', ['userId' => session()->get('user')['id']]) }}" role="button">
+        Retour
+    </a>
 </div>
 
 @endsection

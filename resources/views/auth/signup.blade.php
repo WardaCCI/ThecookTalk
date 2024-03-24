@@ -6,7 +6,7 @@
 
     <div class="d-flex flex-column align-items-center">
 
-        <h1 class="text-center py-3">Création de compte</h1>
+        <h1 class="fw-bold text-center py-3">Création de compte</h1>
 
         <form method="POST" action="{{ route('signup.post') }}" class="col-sm-4">
             @csrf
@@ -58,7 +58,7 @@
             </div>
 
             <div class="d-grid">
-                <button type="submit" class="fw-bold btn btn-primary btn-block my-2">Créer mon compte</button>
+                <button type="submit" class="fw-bold btn btn-primary btn-block py-3 my-2">Créer mon compte</button>
             </div>
 
         </form>

@@ -6,7 +6,7 @@
 
     <div class="d-flex flex-column align-items-center">
 
-        <h1 class="text-center py-4">Ouverture de session</h1>
+        <h1 class="fw-bold text-center py-4">Ouverture de session</h1>
 
         <form method="POST" action="{{ route('signin.post') }}" class="col-sm-4">
             @csrf
@@ -39,7 +39,7 @@
             </div>
 
             <div class="d-grid">
-                <button type="submit" class="fw-bold btn btn-primary shadow-none my-2">Se connecter</button>
+                <button type="submit" class="fw-bold btn btn-primary shadow-none py-3 my-2">Se connecter</button>
             </div>
 
         </form>

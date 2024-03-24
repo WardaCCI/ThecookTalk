@@ -13,8 +13,21 @@
     color: #0275d8 !important;
 }
 
-
-
 .--danger:hover, .--danger:active {
     color: #d9534f !important;
+}
+
+/* css for stars at the top of recipe page */
+
+.star-bottom {
+    cursor: pointer;
+}
+
+#rating-bottom a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#rating-bottom a:hover {
+    color: inherit;
 }
