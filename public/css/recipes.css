@@ -7,5 +7,13 @@
     background-color: aliceblue;
 
 }
-
     
+/* Style pour les étoiles du rating */
+.star2 {
+    font-size: 40px; /* Taille des étoiles */
+    color: #ccc; /* Couleur des étoiles non remplies */
+  }
+  
+  .star1 {
+    color: gold; /* Couleur des étoiles remplies */
+  }
