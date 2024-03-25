@@ -1,0 +1,21 @@
+
+
+/* Redimensionnement automatique des images pour s'adapter à la taille des blocs de recette */
+.recipe-image {
+    width: 100%; 
+    height: 400px ;
+    background-color: aliceblue;
+
+}
+    
+/* Style pour les étoiles du rating */
+.star2 {
+    font-size: 40px; /* Taille des étoiles */
+    color: #ccc; /* Couleur des étoiles non remplies */
+  }
+  
+  .star1 {
+    color: gold; /* Couleur des étoiles remplies */
+  }
+
+  

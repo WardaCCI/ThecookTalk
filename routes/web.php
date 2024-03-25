@@ -2,26 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StepController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\RecipeController;
-use App\Http\Controllers\CommentController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
-
+use App\Http\Controllers\QuantityController;
+use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\StarCommentController;
+use App\Http\Controllers\FavoriteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +25,7 @@ Route::get('/', function () {
 //     return view('welcome');
 // });
 
+/** ------------------------------------------------------------------------------------------------ */
 /** home route */
 Route::get('/', [AuthController::class, 'showHome'])
     ->name('home.show');
@@ -78,17 +66,17 @@ Route::get('/signin/{userId}/{userNewEmail}', [AuthController::class, 'showSigni
 
 /** ------------------------------------------------------------------------------------------------ */
 /** edit password routes */
-Route::get('/signin/forgotPassword', [AuthController::class, 'showForgotPasswordForm'])
+Route::get('/signin/forgot-password', [AuthController::class, 'showForgotPasswordForm'])
     ->name('forgotPassword.show');
 
-Route::post('/signin/forgotPassword', [AuthController::class, 'forgotPassword'])
+Route::post('/signin/forgot-password', [AuthController::class, 'forgotPassword'])
     ->name('forgotPassword.post');
 
-Route::get('/signin/forgotPassword/{userId}', [AuthController::class, 'showEditPasswordForm'])
+Route::get('/signin/forgot-password/{userId}', [AuthController::class, 'showEditPasswordForm'])
     ->where('userId', '[0-9]+')
     ->name('editPassword.show');
 
-Route::post('/signin/forgotPassword/{userId}', [AuthController::class, 'editPassword'])
+Route::post('/signin/forgot-password/{userId}', [AuthController::class, 'editPassword'])
     ->where('userId', '[0-9]+')
     ->name('editPassword.post');
 
@@ -100,51 +88,155 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 /** ------------------------------------------------------------------------------------------------ */
 /** user signin routes */
-Route::get('/users/{userId}/dashboard', [AuthController::class, 'showUserDashboard'])
+Route::get('/dashboard/{userId}', [AuthController::class, 'showUserDashboard'])
     ->where('userId', '[0-9]+')
     ->name('dashboard.show');
 
-Route::get('/users/{userId}/dashboard/informations', [AuthController::class, 'showUserDashboardInfosForm'])
+Route::get('/dashboard/{userId}/informations', [AuthController::class, 'showUserDashboardInfosForm'])
     ->where('userId', '[0-9]+')
     ->name('informations.show');
 
-Route::put('/users/{userId}/dashboard/informations', [AuthController::class, 'updateInformations'])
+Route::put('/dashboard/{userId}/informations', [AuthController::class, 'updateInformations'])
     ->where('userId', '[0-9]+')
     ->name('informations.update');
 
-Route::put('/users/{userId}/dashboard/avatar', [AuthController::class, 'updateAvatar'])
+Route::put('/dashboard/{userId}/avatar', [AuthController::class, 'updateAvatar'])
     ->where('userId', '[0-9]+')
     ->name('avatar.update');
 
-Route::post('/users/{userId}/dashboard/avatar', [AuthController::class, 'deleteAvatar'])
+Route::delete('/dashboard/{userId}/avatar', [AuthController::class, 'deleteAvatar'])
     ->where('userId', '[0-9]+')
     ->name('avatar.delete');
 
-Route::get('/users/{userId}/dashboard/email', [AuthController::class, 'showUserDashboardEmailForm'])
+Route::get('/dashboard/{userId}/email', [AuthController::class, 'showUserDashboardEmailForm'])
     ->where('userId', '[0-9]+')
     ->name('email.show');
 
-Route::put('/users/{userId}/dashboard/email', [AuthController::class, 'updateEmail'])
+Route::put('/dashboard/{userId}/email', [AuthController::class, 'updateEmail'])
     ->where('userId', '[0-9]+')
     ->name('email.update');
 
-Route::get('/users/{userId}/dashboard/password', [AuthController::class, 'showUserDashboardPasswordForm'])
+Route::get('}/dashboard/{userId/password', [AuthController::class, 'showUserDashboardPasswordForm'])
     ->where('userId', '[0-9]+')
     ->name('password.show');
 
-Route::put('/users/{userId}/dashboard/password', [AuthController::class, 'updatePassword'])
+Route::put('/dashboard/{userId}/password', [AuthController::class, 'updatePassword'])
     ->where('userId', '[0-9]+')
     ->name('password.update');
 
-Route::post('/users/{userId}/delete', [AuthController::class, 'deleteUser'])
+Route::delete('/users/{userId}/delete', [AuthController::class, 'deleteUser'])
     ->where('userId', '[0-9]+')
     ->name('user.delete');
 
-    Route::get('/recipe/{id}', [RecipeController::class, 'showRecipe'])->name('recipe.show');
+/** ------------------------------------------------------------------------------------------------ */
+/** recipe routes */
 
-    // Afficher le formulaire de commentaire
-Route::post('/recipe/{id}/comment', [CommentController::class, 'showCommentForm'])->name('comment.form');
+Route::get('/recipes/{recipeId}', [RecipeController::class, 'showRecipe'])
+    ->where('recipeId', '[0-9]+')
+    ->name('recipe.show');
 
-// Traiter le formulaire de commentaire
-Route::post('/recipe/{id}', [CommentController::class, 'storeComment'])->name('comment.store');
+Route::get('/dashboard/{userId}/create-recipe', [RecipeController::class, 'showCreateRecipeForm'])
+    ->where('userId', '[0-9]+')
+    ->name('createRecipeForm.show');
 
+Route::post('/dashboard/{userId}/create-recipe', [RecipeController::class, 'insertRecipe'])
+    ->where('userId', '[0-9]+')
+    ->name('recipe.post');
+
+Route::get('/dashboard/{userId}/update-recipe/{recipeId}', [RecipeController::class, 'showUpdateRecipeForm'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->name('updateRecipeForm.show');
+
+Route::put('/dashboard/{userId}/update-recipe/{recipeId}', [RecipeController::class, 'updateRecipe'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->name('recipe.update');
+
+Route::put('/dashboard/{userId}/{recipeId}/public', [RecipeController::class, 'recipeSetOnPublic'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->name('recipeSetOnPublic.update');
+
+Route::put('/dashboard/{userId}/{recipeId}/private', [RecipeController::class, 'recipeSetOnPrivate'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->name('recipeSetOnPrivate.update');
+
+Route::delete('/dashboard/{userId}/{recipeId}', [RecipeController::class, 'deleteRecipe'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->name('recipe.delete');
+
+/** ------------------------------------------------------------------------------------------------ */
+/** quantities routes */
+Route::post('/dashboard/{userId}/update-recipe/{recipeId}/quantity', [QuantityController::class, 'insertQuantity'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->name('quantity.post');
+
+Route::put('/dashboard/{userId}/update-recipe/{recipeId}/quantity/{quantityId}', [QuantityController::class, 'updateQuantity'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->where('quantityId', '[0-9]+')
+    ->name('quantity.update');
+
+Route::delete('/dashboard/{userId}/update-recipe/{recipeId}/quantity/{quantityId}', [QuantityController::class, 'deleteQuantity'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->where('quantityId', '[0-9]+')
+    ->name('quantity.delete');
+
+/** ------------------------------------------------------------------------------------------------ */
+/** steps routes */
+
+Route::post('/dashboard/{userId}/update-recipe/{recipeId}/step', [StepController::class, 'insertStep'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->name('step.post');
+
+Route::put('/dashboard/{userId}/update-recipe/{recipeId}/step/{stepId}', [StepController::class, 'updateStep'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->where('stepId', '[0-9]+')
+    ->name('step.update');
+
+Route::delete('/dashboard/{userId}/update-recipe/{recipeId}/step/{stepId}', [StepController::class, 'deleteStep'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->where('stepId', '[0-9]+')
+    ->name('step.delete');
+
+/** ------------------------------------------------------------------------------------------------ */
+/** image routes */
+
+Route::post('/dashboard/{userId}/update-recipe/{recipeId}/image', [ImageController::class, 'insertImages'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->name('image.post');
+
+Route::delete('/dashboard/{userId}/update-recipe/{recipeId}/image/{imageId}', [ImageController::class, 'deleteImage'])
+    ->where('userId', '[0-9]+')
+    ->where('recipeId', '[0-9]+')
+    ->where('imageId', '[0-9]+')
+    ->name('image.delete');
+    
+/** ------------------------------------------------------------------------------------------------ */
+/** recipes routes */
+Route::get('/recipes', [RecipeController::class, 'showRecipes'])
+    ->name('recipes.show');
+
+/** ------------------------------------------------------------------------------------------------ */
+/** stars and comment routes */
+
+Route::get('/recipes/{recipeId}/rate', [StarCommentController::class, 'showStarCommentForm'])
+    ->where('recipeId', '[0-9]+')
+    ->name('starCommentForm.show');
+
+Route::post('/recipes/{recipeId}/rate', [StarCommentController::class, 'insertStarComment'])
+    ->where('recipeId', '[0-9]+')
+    ->name('starComment.post');
+    
+    
+    Route::post('/favorite/add', [FavoriteController::class, 'addFavorite'])->name('favorite.add');
+    Route::post('/favorite/toggle',  [FavoriteController::class, 'addFavorite'])->name('favorite.toggle');

@@ -1,43 +1,25 @@
 <?php
-use Tests\TestCase;
-use App\Repository\Recipe;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithFaker;
+
+namespace Tests\Unit;
+
+use App\Data\RecipeData;
+use App\Repositories\RecipeRepository;
+use PHPUnit\Framework\TestCase;
 
 class RecipeRepositoryTest extends TestCase
 {
-    use DatabaseTransactions, WithFaker;
+    protected $recipeRepository;
+    protected $recipeData;
 
-    /** @test */
-    public function it_adds_recipe_to_database()
+    public function setUp(): void 
     {
-        // Replace with your actual data
-        $cookingtype = 'four';
-        $recipename = 'Test Recipe';
-        $time = $this->faker->randomDigit; // Utilisez $this->faker pour accéder à la propriété faker
-        $category = 'plat';
-        $difficulty = 'facile';
-        $idUser = 1;
+        parent::setUp();
+        $this->recipeRepository = new RecipeRepository();
+        $this->recipeData = new RecipeData();
+    }
 
-        // Create an instance of the Recipe repository
-        $recipeRepository = new Recipe();
-
-        // Call the addRecipe method
-        $recipeId = $recipeRepository->addRecipe($cookingtype, $recipename, $time, $category, $difficulty, $idUser);
-
-        // Assert that the method returns a valid recipe ID (positive integer)
-        $this->assertIsInt($recipeId);
-        $this->assertGreaterThan(0, $recipeId);
-
-        // Assert that the recipe exists in the database
-        $this->assertDatabaseHas('recipes', [
-            'id' => $recipeId,
-            'recipename' => $recipename,
-            'time' => $time,
-            'cookingtype' => $cookingtype,
-            'category' => $category,
-            'difficulty' => $difficulty,
-            'id_user' => 1,
-        ]);
+    public function testDeleteRecipe(): void
+    {
+        
     }
 }

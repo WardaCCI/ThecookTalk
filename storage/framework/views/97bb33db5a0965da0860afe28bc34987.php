@@ -1,0 +1,285 @@
+<?php $__env->startSection('content'); ?>
+
+
+<div class="d-flex flex-column">
+
+    <!-- Informations personnelles -->
+    <div class="my-3">
+        <div class="border-bottom py-2 mb-3">
+            <div class="fw-bold fs-5 align-self-center">
+                Informations personnelles
+            </div>
+        </div>
+
+        <div class="d-flex flex-column flex-md-row gap-5 mb-3">
+            <div class="d-flex flex-column flex-sm-row gap-4">
+                <div class="d-flex row-gap-2 flex-column align-items-center">
+                    <img src="<?php echo e(asset($user['avatar'])); ?>" class="object-fit-cover img-thumbnail rounded mr-3" width="200" height="200" alt="avatar">
+
+                    <div class="d-flex justify-content-center gap-4">
+                        <!-- button upload avatar -->
+                        <form method="POST" action="<?php echo e(route('avatar.update', ['userId' => session()->get('user')['id']])); ?>" enctype="multipart/form-data" class="d-grid">
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('PUT'); ?>
+
+                            <button type="button" class="btn btn-secondary d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#updateAvatarModal">
+                                <i class="bi bi-upload"></i>
+                            </button>
+
+                            <!-- modal -->
+                            <div class="modal fade" id="updateAvatarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header border border-0">
+                                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="form-group my-2">
+                                                <input type="file" id="avatar" name="avatar" accept="image/*" aria-describedby="avatar_feedback" class="form-control shadow-none <?php $__errorArgs = ['avatar_feedback'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" />
+
+                                                <?php $__errorArgs = ['avatar'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                <div id="avatar_feedback" class="invalid-feedback">
+                                                    <?php echo e($message); ?>
+
+                                                </div>
+                                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer border border-0">
+                                            <button type="button" class="fw-bold btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            <button type="submit" class="fw-bold btn btn-success">Valider</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- button delete avatar -->
+                        <form method="POST" action="<?php echo e(route('avatar.delete', ['userId' => session()->get('user')['id']])); ?>" class="d-grid">
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('DELETE'); ?>
+
+                            <button type="submit" class="btn btn-danger d-flex justify-content-center align-items-center">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <div class="my-2">
+                        <span class="fw-bold">Pseudonyme : </span><?php echo e($user['username']); ?>
+
+                    </div>
+
+                    <div class="my-2">
+                        <span class="fw-bold">Nom : </span><?php echo e($user['firstname']); ?> <?php echo e($user['lastname']); ?>
+
+                    </div>
+
+                    <div class="my-2">
+                        <span class="fw-bold">Email : </span><?php echo e($user['email']); ?>
+
+                    </div>
+
+                    <div class="my-2">
+                        <span class="fw-bold">Date de naissance : </span><?php echo e($user['birthdate']); ?>
+
+                    </div>
+
+                    <div class="my-2">
+                        <span class="fw-bold">Adresse : </span><?php echo e($user['address']); ?>
+
+                    </div>
+
+                    <div class="my-2">
+                        <span class="fw-bold">Numéro : </span><?php echo e($user['phone']); ?>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="d-flex flex-column gap-2">
+                <!-- button edit email -->
+                <a role="button" class="fw-bold btn btn-secondary" href="<?php echo e(route('informations.show', ['userId' => session()->get('user')['id']])); ?>">
+                    Modifier mes informations
+                </a>
+
+                <!-- button edit email -->
+                <a type="button" class="fw-bold btn btn-secondary" href="<?php echo e(route('email.show', ['userId' => session()->get('user')['id']])); ?>">
+                    Modifier mon email
+                </a>
+
+                <!-- button update password -->
+                <a type="button" class="fw-bold btn btn-secondary" href="<?php echo e(route('password.show', ['userId' => session()->get('user')['id']])); ?>">
+                    Modifier mon mot de passe
+                </a>
+
+                <!-- button logout -->
+                <form method="POST" action="<?php echo e(route('logout')); ?>" class="d-grid">
+                    <?php echo csrf_field(); ?>
+
+                    <button type="submit" class="fw-bold btn btn-outline-danger hover-effect-disabled --danger active-effect-disabled">
+                        Déconnexion
+                    </button>
+                </form>
+
+                <!-- button delete account -->
+                <form method="POST" action="<?php echo e(route('user.delete', ['userId' => session()->get('user')['id']])); ?>" class="d-grid">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('DELETE'); ?>
+
+                    <button type="button" class="fw-bold btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                        Supprimer mon compte
+                    </button>
+
+                    <div class="modal fade" id="deleteAccountModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+                        <div class="modal-dialog modal-dialog-centered">
+
+                            <div class="modal-content">
+                                <div class="modal-header border border-0">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <span class="fs-3 fw-bold text-danger">Attention !</span><br />
+                                    Vous êtes sur le point de supprimer votre compte. Cliquez sur 'Supprimer' pour confirmer la suppression.
+                                </div>
+
+                                <div class="modal-footer border border-0">
+                                    <button type="button" class="fw-bold btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    <button type="submit" class="fw-bold btn btn-danger">Supprimer</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recettes -->
+    <div class="my-3">
+        <div class="d-flex justify-content-between border-bottom py-2 mb-3">
+            <div class="fw-bold fs-5 align-self-center">
+                Recettes
+            </div>
+            <a class="fw-bold btn btn-outline-primary rounded-pill" href="<?php echo e(route('createRecipeForm.show', ['userId' => session()->get('user')['id']])); ?>" role="button">Ajouter</a>
+        </div>
+
+        <!-- notifications -->
+        <?php if(session('recipe_warning')): ?>
+        <div class="alert alert-warning">
+            <?php echo e(session('recipe_warning')); ?> &#9785;
+        </div>
+        <?php endif; ?>
+
+        <?php if(session('recipe_success')): ?>
+        <div class="alert alert-success">
+            <?php echo e(session('recipe_success')); ?> &#128578;
+        </div>
+        <?php endif; ?>
+
+        <div class="d-flex flex-column gap-2">
+            <?php $__currentLoopData = $userRecipes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $userRecipe): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div class="d-flex flex-sm-row flex-column justify-content-between border rounded p-2 gap-2">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center">
+                        <form method="POST" action="<?php echo e(route('recipeSetOnPublic.update', ['userId' => session()->get('user')['id'], 'recipeId' => $userRecipe->id])); ?>">
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('PUT'); ?>
+
+                            <button type="submit" class="btn btn-sm btn-secondary border-end-0 rounded-end-0 btn-on <?php if($userRecipe->visibility === 1): ?> is-public <?php endif; ?>" <?php if($userRecipe->completed === 0): ?> disabled <?php endif; ?>>
+                                ON
+                            </button>
+                        </form>
+
+                        <form method="POST" action="<?php echo e(route('recipeSetOnPrivate.update', ['userId' => session()->get('user')['id'], 'recipeId' => $userRecipe->id])); ?>">
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('PUT'); ?>
+
+                            <button type="submit" class="btn btn-sm btn-secondary border-start-0 rounded-start-0 btn-off <?php if($userRecipe->visibility === 0): ?> is-private <?php endif; ?>" <?php if($userRecipe->completed === 0): ?> disabled <?php endif; ?>>
+                                OFF
+                            </button>
+                        </form>
+                    </div>
+
+
+                    <div class="d-flex align-items-center fw-medium">
+                        <?php echo e($userRecipe->recipename); ?>
+
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center align-item-center gap-2">
+                    <a type="button" href="<?php echo e(route('recipe.show', ['recipeId' => $userRecipe->id])); ?>" class="btn btn-secondary d-flex justify-content-center align-items-center <?php if($userRecipe->completed === 0): ?> disabled <?php endif; ?>">
+                        <i class="bi bi-eye"></i>
+                    </a>
+
+                    <a type="button" href="<?php echo e(route('updateRecipeForm.show', ['userId' => session()->get('user')['id'], 'recipeId' => $userRecipe->id])); ?>" class="btn btn-success d-flex justify-content-center align-items-center">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+
+                    <form method="POST" action="<?php echo e(route('recipe.delete', ['userId' => session()->get('user')['id'], 'recipeId' => $userRecipe->id])); ?>">
+                        <?php echo csrf_field(); ?>
+                        <?php echo method_field('DELETE'); ?>
+
+                        <button type="submit" class="btn btn-danger d-flex justify-content-center align-items-center">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </div>
+    </div>
+
+    <!-- Favoris -->
+    <div class="my-3">
+        <div class="d-flex justify-content-between border-bottom py-3 mb-3">
+            <div class="fw-bold fs-5 align-self-center">
+                Favoris
+            </div>
+        </div>
+
+        <div class="text-center">
+            Aucun favoris
+        </div>
+    </div>
+
+    <!-- Commentaires -->
+    <div class="my-3">
+        <div class="d-flex justify-content-between border-bottom py-3 mb-3">
+            <div class="fw-bold fs-5 align-self-center">
+                Commentaires
+            </div>
+        </div>
+
+        <div class="text-center">
+            Aucun commentaire ajouté
+        </div>
+    </div>
+</div>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('base', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/baptiste/Desktop/jawaad/resources/views/users/user_dashboard.blade.php ENDPATH**/ ?>

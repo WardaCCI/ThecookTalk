@@ -1,0 +1,9 @@
+.btn-on.is-public {
+    background-color: #5BB75B;
+    color: white;
+}
+
+.btn-off.is-private {
+    background-color: #DA4F49;
+    color: white;
+}
