@@ -1,27 +1,56 @@
 <?php
+
 namespace App\Repositories;
 
-use Exception;
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Models\Recipe;
 
-class RecipeRepository
+final class RecipeRepository
 {
-    public function addRecipe(string $cookingtype, string $recipename, string $time, string $category, string $difficulty, int $idUser): int
+    public function addRecipe(string $recipename, string $time, string $cookingtype, string $category, string $difficulty, int $for, int $unitId, int $userId)
     {
-        $recipeId = DB::table("recipes")->insertGetId([
+        Recipe::create([
             "recipename" => $recipename,
             "time" => $time,
             "cookingtype" => $cookingtype,
             "category" => $category,
             "difficulty" => $difficulty,
-            "id_user" => $idUser,
+            "visibility" => false,
+            "completed" => false,
+            "for" => $for,
+            "id_unit" => $unitId,
+            "id_user" => $userId,
         ]);
-
-        return $recipeId;
     }
 
+    public function getRecipe(int $recipeId): Recipe
+    {
+        return Recipe::where('id', $recipeId)
+            ->first();
+    }
 
-  
-     
+    public function getRecipeId(string $recipename): int
+    {
+        $recipe = Recipe::where('recipename', $recipename)
+            ->first();
+
+        return $recipe->id;
+    }
+
+    public function getUserRecipes(int $userId)
+    {
+        return Recipe::where('id_user', $userId)
+            ->get();
+    }
+
+    public function updateField(int $recipeId, string $field, string|int|bool $value)
+    {
+        Recipe::where('id', $recipeId)
+            ->update([$field => $value]);
+    }
+
+    public function deleteRecipe(int $recipeId)
+    {
+        Recipe::where('id', $recipeId)
+            ->delete();
+    }
 }

@@ -2,330 +2,313 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Repositories\RecipeRepository;
-use App\Repositories\StepRepository;
-use App\Repositories\IngredientRepository;
-use App\Repositories\ImagesRepository;
-use App\Repositories\QuantityRepository;
-use App\Repositories\UnitsRepository;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\StepRepository;
+use App\Repositories\UnitRepository;
+use App\Repositories\ImageRepository;
+use App\Repositories\RecipeRepository;
+use App\Repositories\QuantityRepository;
+use App\Repositories\IngredientRepository;
+use App\Repositories\StarCommentRepository;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class RecipeController 
+class RecipeController extends Controller
 {
-   
-    protected $recipeId;
-  
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function __construct(RecipeRepository $recipeRepository, StepRepository $stepRepository,IngredientRepository $ingredientRepository, ImagesRepository $imagesRepository,QuantityRepository $quantityRepository,UnitsRepository $unitsRepository )
+    protected $recipeRepository;
+    protected $ingredientRepository;
+    protected $stepRepository;
+    protected $imageRepository;
+    protected $unitRepository;
+    protected $quantityRepository;
+    protected $starcommentRepository;
+
+    public function __construct(RecipeRepository $recipeRepository, IngredientRepository $ingredientRepository, StepRepository $stepRepository, ImageRepository $imageRepository, UnitRepository $unitRepository, QuantityRepository $quantityRepository, StarCommentRepository $starcommentRepository)
     {
         $this->recipeRepository = $recipeRepository;
-        $this->stepRepository =  $stepRepository;
-        $this->ingredientRepository =  $ingredientRepository;
-        $this->imagesRepository =  $imagesRepository;
-        $this->quantityRepository =  $quantityRepository;
-        $this->unitsRepository =  $quantityRepository;
+        $this->ingredientRepository = $ingredientRepository;
+        $this->stepRepository = $stepRepository;
+        $this->imageRepository = $imageRepository;
+        $this->unitRepository = $unitRepository;
+        $this->quantityRepository = $quantityRepository;
+        $this->starcommentRepository = $starcommentRepository;
     }
 
-    public function insertRecipe(Request $request)
+    /** views preview function */
+
+    /**
+     * 
+     */
+    public function showCreateRecipeForm(Request $request)
     {
+        if (!$request->session()->has('user')) {
+            return redirect()->route('signin.show');
+        }
+
+        $ingredients = $this->ingredientRepository->getIngredients();
+        $units = $this->unitRepository->getUnits();
+
+        return view('recipes/recipe_create_form', ['ingredients' => $ingredients, 'units' => $units]);
+    }
+
+    public function showRecipes()
+    {
+        try {
+           $recipes = $this-> recipeRepository->getRecipes();
+        } catch (Exception $e) {
+            return redirect()->back()->with('warning', "Impossible de charger la page de la recette");
+        }
+
+        return view('recipes/recipes', ['recipes' => $recipes, 'recipeimages']);
+    }
+
+    /**
+     * 
+     */
+    public function showRecipe(int $recipeId)
+    {
+        $recipe = $this->recipeRepository->getRecipe($recipeId);
+        
+        if ($recipe->completed === 0) {
+
+        }
+
+        $recipeForUnitname = $this->unitRepository->getUnit($recipe->id_unit)->unitname;
+        $recipeSteps = $this->stepRepository->getRecipeSteps($recipeId);
+        $recipeImages = $this->imageRepository->getRecipeImages($recipeId);
+        $recipeQuantities = $this->quantityRepository->getRecipeQuantities($recipeId);
+        $recipeStarscomments = $this->starcommentRepository->getStarsComments($recipeId);
+        $recipeCommentsCount = $this->starcommentRepository->getCommentsCount($recipeId);
+        $recipeAverageStars = $this->starcommentRepository->getAverageStars($recipeId);
+
+        return view('recipes/recipe', [
+            'recipe' => $recipe,
+            'recipeForUnitname' => $recipeForUnitname,
+            'recipeSteps' => $recipeSteps,
+            'recipeImages' => $recipeImages,
+            'recipeQuantities' => $recipeQuantities,
+            'recipeStarscomments' => $recipeStarscomments,
+            'recipeCommentsCount' => $recipeCommentsCount,
+            'recipeAverageStars' => $recipeAverageStars,
+        ]);
+    }
+
+
+    /**
+     * 
+     */
+    public function showUpdateRecipeForm(Request $request, int $userId, int $recipeId)
+    {
+        if (!$request->session()->has('user')) {
+            return redirect()->route('signin.show');
+        }
+
+        $ingredients = $this->ingredientRepository->getIngredients();
+        $units = $this->unitRepository->getUnits();
+        $recipe = $this->recipeRepository->getRecipe($recipeId);
+        $recipeUnitname = $this->unitRepository->getUnit($recipe->id_unit)->unitname;
+        $recipeImages = $this->imageRepository->getRecipeImages($recipeId);
+        $recipeSteps = $this->stepRepository->getRecipeSteps($recipeId);
+        $recipeQuantities = $this->quantityRepository->getRecipeQuantities($recipeId);
+
+        return view('recipes/recipe_update_form', [
+            'ingredients' => $ingredients,
+            'units' => $units,
+            'userId' => $userId,
+            'recipe' => $recipe,
+            'recipeUnitname' => $recipeUnitname,
+            'recipeImages' => $recipeImages,
+            'recipeSteps' => $recipeSteps,
+            'recipeQuantities' => $recipeQuantities,
+        ]);
+    }
+
+    /** controllers functions */
+
+    /**
+     * Add recipe in DB
+     */
+    public function insertRecipe(Request $request, int $userId)
+    {
+
         $rules = [
             'recipename' => 'required|unique:recipes',
             'time' => 'required',
-            'cookingtype' => 'required|in:four,barbeque,poele,vapeur,sans cuisson',
-            'category' => 'required|in:entree,plat,dessert,boisson',
-            'difficulty' => 'required|in:difficile,facile,moyen',
-            'id_user' => 'required',
+            'cookingtype' => 'required|in:Four,Barbecue,Poele,Vapeur,Sans cuisson',
+            'category' => 'required|in:Entrée,Plat,Dessert,Boisson',
+            'difficulty' => 'required|in:Difficile,Facile,Moyen',
+            'for' => 'required',
+            'id_unit' => 'required|regex:/^\p{L}+$/u',
         ];
 
         $messages = [
             'recipename.required' => 'Le nom de la recette est requis.',
             'recipename.unique' => 'Le nom de la recette existe déjà.',
+            'time.required' => 'Le temps de cuisson est requis.',
             'cookingtype.required' => 'Le type de cuisson de la recette est requis.',
             'category.required' => 'Le type de plat de la recette est requis.',
             'difficulty.required' => 'Le niveau de difficulté de la recette est requis.',
+            'for.required' => 'Vous devez renseigner ce champ.',
+            'id_unit.required' => "Vous devez renseigner une unité",
+            'id_unit.regex' => "Vous devez saisir une unité valide",
+        ];
+
+        $validatedData = $request->validate($rules, $messages);
+        $validatedData["id_user"] = $userId;
+
+        DB::beginTransaction();
+
+        try {
+            $unitId = $this->unitRepository->getUnitId($validatedData["id_unit"]);
+
+            $this->recipeRepository->addRecipe(
+                $validatedData['recipename'],
+                $validatedData['time'],
+                $validatedData['cookingtype'],
+                $validatedData['category'],
+                $validatedData['difficulty'],
+                $validatedData['for'],
+                $unitId,
+                $validatedData['id_user'],
+            );
+
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('warning', "Impossible de créer la recette");
+        }
+
+        return redirect()->route('dashboard.show', ['userId' => $userId]);
+    }
+
+    /**
+     * 
+     */
+    public function updateRecipe(Request $request, int $userId, int $recipeId)
+    {
+
+        $rules = [
+            'recipename' => 'required',
+            'time' => 'required',
+            'cookingtype' => 'required|in:Four,Barbecue,Poele,Vapeur,Sans cuisson',
+            'category' => 'required|in:Entrée,Plat,Dessert,Boisson',
+            'difficulty' => 'required|in:Difficile,Facile,Moyen',
+            'for' => 'required',
+            'id_unit' => 'required|regex:/^\p{L}+$/u',
+        ];
+
+        $messages = [
+            'recipename.required' => 'Le nom de la recette est requis.',
             'time.required' => 'Le temps de cuisson est requis.',
-            'id_user.required' => 'L\'id user est requis.',
+            'cookingtype.required' => 'Le type de cuisson de la recette est requis.',
+            'category.required' => 'Le type de plat de la recette est requis.',
+            'difficulty.required' => 'Le niveau de difficulté de la recette est requis.',
+            'for.required' => 'Vous devez renseigner ce champ.',
+            'id_unit.required' => "Vous devez renseigner une unité",
+            'id_unit.regex' => "Vous devez saisir une unité valide",
         ];
 
         $validatedData = $request->validate($rules, $messages);
 
-        try {
-            $cookingtype = $validatedData['cookingtype'];
-            $recipename = $validatedData['recipename'];
-            $time = $validatedData['time'];
-            $category = $validatedData['category'];
-            $difficulty = $validatedData['difficulty'];
-            $id_user = $validatedData['id_user'];
+        $numberOfChanges = 0;
 
-            $recipeId = $this->recipeRepository->addRecipe([
-                "cookingtype" => $cookingtype,
-                "recipename" => $recipename,
-                "time" => $time,
-                "category" => $category,
-                "difficulty" => $difficulty,
-                "id_user" => $id_user
-            ]);
-
-
-
-              // Insertion des étapes
-              $this->insertSteps($request);
-
-              // Insertion des ingrédients
-              $this->insertIngredients($request);
-  
-              // Insertion des images
-              $this->insertImages($request );
-  
-              // Insertion des quantités
-              $this->insertQuantities($request);
-
-               // Insertion des units
-               $this->insertUnits($request);
-  
-
-            
-            return redirect()->route('dashboard.show');
-        } catch (Exception $exception) {
-            return redirect()->back()->withInput()->withErrors("La recette n'est pas ajoutée");
-        }
-    }
-
-    public function insertSteps(Request $request)
-    {
-        $rules = [
-            'recipe_id' => 'required|exists:recipes,id',
-            'steps.*.description' => 'required',
-        ];
-
-        $messages = [
-            'recipe_id.required' => 'L\'ID de la recette est requis.',
-            'recipe_id.exists' => 'L\'ID de la recette spécifiée n\'existe pas.',
-            'steps.*.description.required' => 'La description de l\'étape est requise.',
-        ];
-
-        $validatedData = $request->validate($rules, $messages);
+        DB::beginTransaction();
 
         try {
-            $recipeId = $validatedData['recipe_id'];
-            $steps = $validatedData['steps'];
+            $recipeToUpdate = $this->recipeRepository->getRecipe($recipeId)->toArray();
 
-            foreach ($steps as $step) {
-                $this->stepRepository->addStep($recipeId, $step['description']);
+            $unitId = $this->unitRepository->getUnitId($validatedData['id_unit']);
+
+            $validatedData['id_unit'] = $unitId;
+
+            foreach ($validatedData as $key => $value) {
+                if (strcmp($recipeToUpdate[$key], $value) != 0) {
+                    $numberOfChanges++;
+                }
             }
+
+            if ($numberOfChanges == 0) {
+                return redirect()->back()->with('recipe_info', "Aucune modification apportée");
+            }
+
+            foreach ($validatedData as $key => $value) {
+                if ($value != $recipeToUpdate[$key]) {
+                    $this->recipeRepository->updateField($recipeId, $key, $value);
+                }
+            }
+
+            DB::commit();
         } catch (Exception $exception) {
-            return redirect()->back()->withInput()->withErrors("Erreur lors de l'ajout des étapes");
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('recipe_warning', "Impossible de modifier la recette");
         }
+
+        return redirect()->back()->with('recipe_success', "Recette modifiée avec succès");
     }
 
-    public function insertIngredients(Request $request)
+
+    /**
+     * 
+     */
+    public function recipeSetOnPublic(Request $request, int $userId, int $recipeId)
     {
-        $rules = [
-            'ingredients.*.name' => 'required',
-            'ingredients.*.calorie' => 'required',
-        ];
+        DB::beginTransaction();
+        try {
+            $this->recipeRepository->updateField($recipeId, 'visibility', true);
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('recipe_warning', "Impossible de rendre public la recette");
+        }
 
-        $messages = [
-            'ingredients.*.name.required' => 'Le nom de l\'ingrédient est requis.',
-            'ingredients.*.calorie.required' => 'Les calories de l\'ingrédient est requise.',
-        ];
+        return redirect()->back()->with('recipe_success', "Votre recette est publique");
+    }
 
-        $validatedData = $request->validate($rules, $messages);
+
+    /**
+     * 
+     */
+    public function recipeSetOnPrivate(Request $request, int $userId, int $recipeId)
+    {
+        DB::beginTransaction();
+        try {
+            $this->recipeRepository->updateField($recipeId, 'visibility', false);
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('recipe_warning', "Impossible de rendre public la recette");
+        }
+
+        return redirect()->back()->with('recipe_success', "Votre récette est privée");
+    }
+
+
+    /**
+     * Delete a recipe whose id have been specified from DB
+     * 
+     * @param int $recipeId
+     */
+    public function deleteRecipe(Request $request, int $userId, int $recipeId)
+    {
+        if (!$request->session()->has('user')) {
+            return redirect()->route('signin.show');
+        }
 
         try {
-            $ingredients = $validatedData['ingredients'];
-
-            foreach ($ingredients as $ingredient) {
-                $this->ingredientRepository->addIngredient($ingredient['name'], $ingredient['calorie']);
-            }
+            $this->imageRepository->deleteRecipeImages($recipeId);
+            $this->stepRepository->deleteRecipeSteps($recipeId);
+            $this->quantityRepository->deleteRecipeQunatities($recipeId);
+            $this->recipeRepository->deleteRecipe($recipeId);
         } catch (Exception $exception) {
-            return redirect()->back()->withInput()->withErrors("Erreur lors de l'ajout des ingrédients");
+            return redirect()->back()->with('recipe_warning', "Impossible de supprimer la recette");
         }
-    }
 
-    public function insertImages(Request $request)
-    {
-        $rules = [
-            'images.*'  => 'required',
-            'recipe_id' => 'required|exists:recipes,id',
-        ];
-
-        $messages = [
-            'recipe_id.required' => 'L\'ID de la recette est requis.',
-            'recipe_id.exists' => 'L\'ID de la recette spécifiée n\'existe pas.',
-            'images.*.image.required' => 'L\'image est requis.',
-        ];
-
-        $validatedData = $request->validate($rules, $messages);
-
-        try {
-
-     
-
-            $recipeId = $validatedData['recipe_id'];
-            $images = $request->file('images');
-            $path = 'uploads/imagesRecipe/';
-    
-            foreach ($images as $image) {
-                $extension = $image->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
-                $image->move($path, $filename);
-                $this->imagesRepository->addImage($path . $filename, $recipeId); // Enregistrer le chemin complet de l'image
-            }
-        } catch (Exception $exception) {
-            return redirect()->back()->withInput()->withErrors("Erreur lors de l'ajout des images");
-        }
-    }
-
-    public function insertUnits(Request $request)
-{
-    $rules = [
-        'units.*.unit' => 'required',
-    ];
-
-    $messages = [
-        'units.*.unit.required' => 'Le nom de l\'unité est requis.',
-    ];
-
-    $validatedData = $request->validate($rules, $messages);
-
-    try {
-        $units = $validatedData['units'];
-
-        foreach ($units as $unit) {
-            $this->unitRepository->addUnit($unit['unit']);
-        }
-    } catch (Exception $exception) {
-        return redirect()->back()->withInput()->withErrors("Erreur lors de l'ajout des unités");
+        return redirect()->back()->with('recipe_success', "Recette supprimée avec succès");
     }
 }
-
-public function insertQuantities(Request $request)
-{
-    $rules = [
-        'quantities.*.quantity' => 'required|integer',
-        'quantities.*.unit_id' => 'required|exists:units,id',
-        'ingredient_id' => 'required|exists:ingredients,id',
-        'recipe_id' => 'required|exists:recipes,id',
-    ];
-
-    $messages = [
-        'quantities.*.quantity.required' => 'La quantité est requise.',
-        'quantities.*.quantity.integer' => 'La quantité doit être un entier.',
-        'quantities.*.unit_id.required' => "L'ID de l'unité est requis.",
-        'quantities.*.unit_id.exists' => "L'ID de l'unité spécifiée n'existe pas.",
-        'ingredient_id.required' => "L'ID de l'ingrédient est requis.",
-        'ingredient_id.exists' => "L'ID de l'ingrédient spécifié n'existe pas.",
-        'recipe_id.required' => "L'ID de la recette est requis.",
-        'recipe_id.exists' => "L'ID de la recette spécifiée n'existe pas.",
-    ];
-
-    $validatedData = $request->validate($rules, $messages);
-
-    try {
-        $recipeId = $validatedData['recipe_id'];
-        $quantities = $validatedData['quantities'];
-
-        foreach ($quantities as $quantity) {
-            $this->quantiteRepository->ajouterQuantite($quantity['quantity'], $quantity['unit_id'], $validatedData['ingredient_id'], $recipeId);
-        }
-    } catch (Exception $exception) {
-        return redirect()->back()->withInput()->withErrors("Erreur lors de l'ajout des quantités");
-    }
-}
-
-
-
-
-// Dans votre contrôleur
-public function showRecipe($id)
-{
-   $recipeId = $id;
-     // Récupérer les informations sur la recette depuis la base de données
-     $recipe = DB::table('recipes')->where('id', $id)->first();
-
-     // Récupérer les ingrédients et les étapes de la recette
-     $recipename = explode(',', $recipe->recipename);
-     $time = explode(',', $recipe->time);
-     $cookingtype = explode(',', $recipe->cookingtype);
-     $difficulty = explode(',', $recipe->difficulty);
-     $category = explode(',', $recipe->category);
-     
- 
-     // Récupérer les quantités de la recette depuis la base de données
-     $quantities = DB::table('quantites')->where('id_recipe', $id)->get();
-
-     
-     $ingredientCalories= [];
-
-     foreach ($quantities as $quantity) {
-         // Récupérer le nom de l'ingrédient correspondant à l'ID
-         $ingredient = DB::table('ingredients')->where('id', $quantity->id_ingredient)->first();
-        
-         // Ajouter le nom de l'ingrédient et la quantité correspondante dans le tableau
-         $ingredientCalories[] = [
-             'ingredient_name' => $ingredient->ingredientname,
-             'calorie' => $ingredient->calorie,
-             
-         ];
-     }
-     
-     
-     
-     // Tableau pour stocker les quantités et les noms des ingrédients
-     $ingredientQuantities = [];
-
-     foreach ($quantities as $quantity) {
-         // Récupérer le nom de l'ingrédient correspondant à l'ID
-         $ingredient = DB::table('ingredients')->where('id', $quantity->id_ingredient)->first();
-         $unit = DB::table('units')->where('id', $quantity->id_unit)->first();
-
-         // Ajouter le nom de l'ingrédient et la quantité correspondante dans le tableau
-         $ingredientQuantities[] = [
-             'ingredient_name' => $ingredient->ingredientname,
-             'quantity' => $quantity->quantity,
-             'unit' => $unit->unit
-         ];
-     }
-
-  $steps = DB::table('steps')->where('id_recipe', $id)->get();
-
-     
-  $stepRecipe= [];
-
-  foreach ($steps as $step) {
-    
-      $stepRecipe[] = [
-          'description' => $step->description,
-         
-          
-      ];
-  }
-  
-  $comments = DB::table('stars_comments')->where('id_recipe', $id)->get();
-   $commentRecipes = [];
-
-   foreach ($comments as $comment) {
-       $pseudo = DB::table('users')->where('id', $comment->id_user)->first();
-       
-
-       if ($comment->comment !== null) {
-        $commentRecipes[] = [
-            'pseudo' => $pseudo->username,
-            'note' => $comment->stars,
-            'comment' => $comment->comment
-        ];
-    }
-   }
-
-   
- 
- 
-     // Retourner la vue avec les données
-     return view('recipeView.recipe', compact('recipename', 'time', 'cookingtype', 'difficulty', 'category', 'ingredientCalories','ingredientQuantities','stepRecipe','commentRecipes','recipeId'));
- }
-
-}
-

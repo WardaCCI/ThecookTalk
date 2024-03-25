@@ -1,25 +1,42 @@
 <?php
+
 namespace App\Repositories;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\Ingredient;
 
-class IngredientRepository {
-      public function addIngredient(int $recipeId, string $name, string $unit): void
+final class IngredientRepository
+{
+    public function addIngredient(string $ingredientname)
     {
-        // Vérifiez d'abord si l'ingrédient existe déjà pour cette recette
-        $existingIngredient = DB::table('ingredients')
-            ->where('id_recipe', $recipeId)
-            ->where('name', $name)
+        Ingredient::create([
+            'ingredientname' => $ingredientname,
+            'calorie' => 0.00
+        ]);
+    }
+
+    public function getIngredient(int $ingredientId)
+    {
+        return Ingredient::where('id', $ingredientId)
+            ->first();
+    }
+
+    public function getIngredientId(string $ingredientname): int
+    {
+        $ingredient = Ingredient::where('ingredientname', $ingredientname)
             ->first();
 
-        // Ajoutez l'ingrédient uniquement s'il n'existe pas déjà
-        if (!$existingIngredient) {
-            DB::table('ingredients')->insert([
-                'id_recipe' => $recipeId,
-                'name' => $name,
-                'unit' => $unit,
-            ]);
-        }
-        
+        return $ingredient->id;
     }
-} 
+
+    public function doesIngredientExist(string|int $ingredientNameOrId)
+    {
+        return Ingredient::where('id', $ingredientNameOrId)
+            ->orWhere('ingredientname', $ingredientNameOrId)
+            ->exists();
+    }
+
+    public function getIngredients()
+    {
+        return Ingredient::all();
+    }
+}
