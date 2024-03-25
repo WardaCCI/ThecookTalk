@@ -59,4 +59,8 @@ final class RecipeRepository
     { 
         return Recipe::where('visibility', true)->get(); 
     }
+    public function getAllRecipesWithRating()
+    {
+        return Recipe::with('ratings')->get();
+    }
 }

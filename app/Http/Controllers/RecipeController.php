@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -60,7 +61,7 @@ class RecipeController extends Controller
     public function showRecipes()
     {
         try {
-           $recipes = $this-> recipeRepository->getRecipes();
+            $recipes = $this->recipeRepository->getRecipes();
         } catch (Exception $e) {
             return redirect()->back()->with('warning', "Impossible de charger la page de la recette");
         }
@@ -74,16 +75,17 @@ class RecipeController extends Controller
     public function showRecipe(int $recipeId)
     {
         $recipe = $this->recipeRepository->getRecipe($recipeId);
-        
-        if ($recipe->completed === 0) {
 
+        // Vérifiez si $recipe->id_unit est non nulle avant d'appeler getUnit()
+        $recipeForUnitname = null;
+        if (!is_null($recipe->id_unit)) {
+            $recipeForUnitname = $this->unitRepository->getUnit($recipe->id_unit)->unitname;
         }
 
-        $recipeForUnitname = $this->unitRepository->getUnit($recipe->id_unit)->unitname;
         $recipeSteps = $this->stepRepository->getRecipeSteps($recipeId);
         $recipeImages = $this->imageRepository->getRecipeImages($recipeId);
         $recipeQuantities = $this->quantityRepository->getRecipeQuantities($recipeId);
-        $recipeStarscomments = $this->starcommentRepository->getStarsComments($recipeId);
+        $recipeStarcomments = $this->starcommentRepository->getStarsComments($recipeId);
         $recipeCommentsCount = $this->starcommentRepository->getCommentsCount($recipeId);
         $recipeAverageStars = $this->starcommentRepository->getAverageStars($recipeId);
 
@@ -93,7 +95,7 @@ class RecipeController extends Controller
             'recipeSteps' => $recipeSteps,
             'recipeImages' => $recipeImages,
             'recipeQuantities' => $recipeQuantities,
-            'recipeStarscomments' => $recipeStarscomments,
+            'recipeStarscomments' => $recipeStarcomments, // Correction ici
             'recipeCommentsCount' => $recipeCommentsCount,
             'recipeAverageStars' => $recipeAverageStars,
         ]);
@@ -112,7 +114,13 @@ class RecipeController extends Controller
         $ingredients = $this->ingredientRepository->getIngredients();
         $units = $this->unitRepository->getUnits();
         $recipe = $this->recipeRepository->getRecipe($recipeId);
-        $recipeUnitname = $this->unitRepository->getUnit($recipe->id_unit)->unitname;
+
+        // Vérifiez si $recipe->id_unit est non nulle avant d'appeler getUnit()
+        $recipeUnitname = null;
+        if (!is_null($recipe->id_unit)) {
+            $recipeUnitname = $this->unitRepository->getUnit($recipe->id_unit)->unitname;
+        }
+
         $recipeImages = $this->imageRepository->getRecipeImages($recipeId);
         $recipeSteps = $this->stepRepository->getRecipeSteps($recipeId);
         $recipeQuantities = $this->quantityRepository->getRecipeQuantities($recipeId);
@@ -128,6 +136,7 @@ class RecipeController extends Controller
             'recipeQuantities' => $recipeQuantities,
         ]);
     }
+
 
     /** controllers functions */
 
@@ -311,4 +320,11 @@ class RecipeController extends Controller
 
         return redirect()->back()->with('recipe_success', "Recette supprimée avec succès");
     }
+    public function index()
+    {
+        $recipes = Recipe::with('ratings')->get();
+    
+        return view('recipes.index', ['recipes' => $recipes]);
+    }
+    
 }

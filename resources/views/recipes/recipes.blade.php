@@ -1,5 +1,3 @@
-<!-- Dans la vue recipes/index.blade.php -->
-
 @extends('base')
 
 @section('content')
@@ -7,9 +5,22 @@
 <div class="container">
     <div class="row gy-5 mb-5">
         <h1 class="text-center fw-bold my-5">Découvrez nos recettes</h1>
+        <!-- Affichage du temps de préparation moyen -->
+        @php
+        // Calcul de la moyenne du temps de préparation en minutes
+        $totalMinutes = 0;
+        foreach($recipes as $recipe) {
+        $timeArray = explode(':', $recipe->time);
+        $totalMinutes += intval($timeArray[0]) * 60 + intval($timeArray[1]);
+        }
+        $averageTime = $totalMinutes / count($recipes);
+        // Formatage du temps de préparation moyen
+        $formattedAverageTime = ($averageTime >= 60) ? floor($averageTime / 60) . ' hr' : $averageTime . ' min';
+        @endphp
+
         @foreach($recipes as $key => $recipe)
-            @if($key % 3 == 0) <!-- Ouvre une nouvelle ligne toutes les trois recettes -->
-                <div class="row gy-5 mb-5">
+        @if($key % 3 == 0) <!-- Ouvre une nouvelle ligne toutes les trois recettes -->
+        <div class="row gy-5 mb-5">
             @endif
             <div class="col-md-4">
                 <div class="card h-100 recipe-card">
@@ -35,9 +46,19 @@
                     <div class="card-body recipe-info">
                         <h5 class="card-title text-center mb-3">{{ $recipe->recipename }}</h5>
                         <div class="recipe-details d-flex justify-content-between">
+                            <!-- Affichage du temps de préparation -->
                             <div class="d-flex gap-2">
-                                <i class="bi bi-alarm-fill"></i> {{ $recipe->time }}
+                                <i class="bi bi-alarm-fill"></i>
+                                @php
+                                // Convertir le temps au format désiré
+                                $timeArray = explode(':', $recipe->time); // Divisez le temps en heures, minutes et secondes
+                                $timeInMinutes = intval($timeArray[0]) * 60 + intval($timeArray[1]); // Convertir le temps total en minutes
+                                $formattedTime = ($timeInMinutes >= 60) ? floor($timeInMinutes / 60) . ' hr' : $timeInMinutes . ' min'; // Convertir les minutes en heures si nécessaire
+                                // Affichez le temps formaté
+                                echo $formattedTime;
+                                @endphp
                             </div>
+
                             <div class="d-flex gap-2">
                                 <span class="material-symbols-outlined">
                                     restaurant_menu
@@ -49,16 +70,26 @@
                                 </span>{{ $recipe->cookingtype }}
                             </div>
                         </div>
-                        <!-- Affichage de la note de la recette avec un système d'étoiles -->
-                        <div class="text-center mt-3">
-                            Note :
-                            @for($i = 1; $i <= 5; $i++)
-                                @if($i <= $recipe->rating)
-                                    <span class="star">★</span>
-                                @else
-                                    <span class="star">☆</span>
-                                @endif
-                            @endfor
+                        <div class="d-flex justify-content-between mb-3 px-md-5">
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <div class="d-flex justify-content-center align-items-center gap-1 pb-1" id="rating-top">
+                                    @php
+                                    // Calcul du nombre d'étoiles remplies
+                                    $filledStars = min(round($recipe->ratings->avg('stars')), 5);
+                                    @endphp
+                                    @for ($i = 1; $i <= 5; $i++) @if ($i <=$filledStars) <!-- Étoile pleine -->
+                                        <span class="star-comment fs-6 good" data-rating="{{ $i }}">&#9733;</span>
+                                        @else
+                                        <!-- Étoile vide -->
+                                        <span class="star-comment fs-6" data-rating="{{ $i }}">&#9734;</span>
+                                        @endif
+                                        @endfor
+                                </div>
+
+                                <div class="d-flex justify-content-center align-items-center">
+                                    {{ number_format($recipe->ratings->avg('stars'), 1) }}/5
+                                </div>
+                            </div>
                         </div>
                         <div class="text-center mt-3">
                             <a href="{{ route('recipe.show', ['recipeId' => $recipe->id]) }}" class="btn btn-success btn-voir-recette">Voir la recette</a>
@@ -67,11 +98,10 @@
                 </div>
             </div>
             @if(($key + 1) % 3 == 0 || $loop->last) <!-- Ferme la ligne après chaque troisième recette ou si c'est la dernière recette -->
-                </div>
-            @endif
+        </div>
+        @endif
         @endforeach
     </div>
 </div>
 <link rel="stylesheet" href="{{ asset('css/recipes.css') }}">
-<link rel="stylesheet" href="{{ asset('css/rating_stars.css') }}">
 @endsection
