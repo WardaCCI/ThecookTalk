@@ -163,7 +163,7 @@ Route::put('/dashboard/{userId}/{recipeId}/private', [RecipeController::class, '
     ->where('recipeId', '[0-9]+')
     ->name('recipeSetOnPrivate.update');
 
-Route::delete('/dashboard/{userId}/{recipeId}', [RecipeController::class, 'deleteRecipe'])
+Route::delete('/dashboard/{userId}/{recipeId}/delete-recipe', [RecipeController::class, 'deleteRecipe'])
     ->where('userId', '[0-9]+')
     ->where('recipeId', '[0-9]+')
     ->name('recipe.delete');
@@ -220,11 +220,6 @@ Route::delete('/dashboard/{userId}/update-recipe/{recipeId}/image/{imageId}', [I
     ->where('recipeId', '[0-9]+')
     ->where('imageId', '[0-9]+')
     ->name('image.delete');
-    
-/** ------------------------------------------------------------------------------------------------ */
-/** recipes routes */
-Route::get('/recipes', [RecipeController::class, 'showRecipes'])
-    ->name('recipes.show');
 
 /** ------------------------------------------------------------------------------------------------ */
 /** stars and comment routes */
@@ -236,7 +231,17 @@ Route::get('/recipes/{recipeId}/rate', [StarCommentController::class, 'showStarC
 Route::post('/recipes/{recipeId}/rate', [StarCommentController::class, 'insertStarComment'])
     ->where('recipeId', '[0-9]+')
     ->name('starComment.post');
+
+Route::delete('/dashboard/{userId}/{starCommentId}/delete-comment', [StarCommentController::class, 'deleteStarComment'])
+    ->where('userId', '[0-9]+')
+    ->where('starCommentId', '[0-9]+')
+    ->name('starComment.delete');
     
-    
+ Route::delete('/dashboard/{userId}/{favoriteId}/delete-favorite', [FavoriteController::class, 'deleteFavorite'])
+    ->where('userId', '[0-9]+')
+    ->where('starCommentId', '[0-9]+')
+    ->name('favorite.delete');   
+
+
     Route::post('/favorite/add', [FavoriteController::class, 'addFavorite'])->name('favorite.add');
-    Route::post('/favorite/toggle',  [FavoriteController::class, 'addFavorite'])->name('favorite.toggle');
+ 

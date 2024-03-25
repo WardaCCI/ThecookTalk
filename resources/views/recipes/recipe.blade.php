@@ -59,7 +59,7 @@
                         @csrf
                         <input type="hidden" name="recipeId" value="{{ $recipe->id }}">
                         <button id="heartButton" type="submit" class="btn d-flex justify-content-center align-items-center border border-0">
-                            <i id="heartIcon" class="bi bi-heart-fill"></i>
+                            <i id="heartIcon" class="bi bi-heart"></i>
                         </button>
                     </form>
                 </div>

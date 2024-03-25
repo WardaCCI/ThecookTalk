@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard_switch_button.css') }}">
     <link rel="stylesheet" href="{{ asset('css/rating_stars.css') }}">
-
     
     <!-- jquery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
@@ -80,7 +79,7 @@
     </div>
 
     <!-- footer -->
-    <div class="container d-flex justify-content-center align-items-center border-top bg-white mt-3 py-4">
+    <div class="container d-flex justify-content-center align-items-center border-top bg-white mt-5 py-4">
         <a href="#" class="fs-5 fw-bold my-0 link-dark link-underline link-underline-opacity-0">© 2024 TheCookTalk</a>
     </div>
 

@@ -160,7 +160,7 @@
 
     <!-- Recettes -->
     <div class="my-3">
-        <div class="d-flex justify-content-between border-bottom py-2 mb-3">
+        <div class="d-flex justify-content-between border-bottom py-3 mb-3">
             <div class="fw-bold fs-5 align-self-center">
                 Recettes
             </div>
@@ -174,14 +174,15 @@
         </div>
         @endif
 
-        @if(session('recipe_success'))
+        @if (session('recipe_success'))
         <div class="alert alert-success">
             {{ session('recipe_success') }} &#128578;
         </div>
         @endif
 
+        @if (count($userRecipes) != 0)
         <div class="d-flex flex-column gap-2">
-            @foreach($userRecipes as $userRecipe)
+            @foreach ($userRecipes as $userRecipe)
             <div class="d-flex flex-sm-row flex-column justify-content-between border rounded p-2 gap-2">
                 <div class="d-flex align-items-center gap-3">
                     <div class="d-flex align-items-center">
@@ -231,20 +232,68 @@
             </div>
             @endforeach
         </div>
+        @else
+        <div class="text-center">
+            Aucune recette partagée
+        </div>
+        @endif
+
     </div>
 
     <!-- Favoris -->
-    <div class="my-3">
-        <div class="d-flex justify-content-between border-bottom py-3 mb-3">
-            <div class="fw-bold fs-5 align-self-center">
-                Favoris
-            </div>
-        </div>
-
-        <div class="text-center">
-            Aucun favoris
+<div class="my-3">
+    <div class="d-flex justify-content-between border-bottom py-3 mb-3">
+        <div class="fw-bold fs-5 align-self-center">
+            Favoris
         </div>
     </div>
+
+     <!-- notifications -->
+     @if (session('favorite_warning'))
+     <div class="alert alert-warning">
+         {{ session('favorite_warning') }} &#9785;
+     </div>
+     @endif
+
+     @if (session('favorite_success'))
+     <div class="alert alert-success">
+         {{ session('favorite_success') }} &#128578;
+     </div>
+     @endif
+
+
+    @if (count($userFavoriteRecipes) != 0)
+    <div class="d-flex flex-column gap-2">
+        @foreach ($userFavoriteRecipes as $favoriteRecipe)
+        <div class="d-flex flex-sm-row flex-column justify-content-between border rounded p-2 gap-2">
+            <div class="d-flex align-items-center fw-medium">
+                {{ $favoriteRecipe->recipename }}
+            </div>
+
+            <div class="d-flex justify-content-center align-item-center gap-2">
+                <a type="button" href="{{ route('recipe.show', ['recipeId' => $favoriteRecipe->id_recipe]) }}" class="btn btn-secondary d-flex justify-content-center align-items-center ">
+                    <i class="bi bi-eye"></i>
+                </a>
+                
+                <form method="POST" action="{{ route('favorite.delete', ['userId' => session()->get('user')['id'], 'favoriteId' => $favoriteRecipe->id]) }}">
+                    @csrf
+                    @method('DELETE')
+                
+                    <button type="submit" class="btn btn-danger d-flex justify-content-center align-items-center">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        @endforeach
+    </div>
+    @else
+    <div class="text-center">
+        Aucune recette ajoutée en favoris
+    </div>
+    @endif
+</div>
+
 
     <!-- Commentaires -->
     <div class="my-3">
@@ -254,9 +303,49 @@
             </div>
         </div>
 
-        <div class="text-center">
-            Aucun commentaire ajouté
+        <!-- notifications -->
+        @if (session('star_comment_warning'))
+        <div class="alert alert-warning">
+            {{ session('star_comment_warning') }} &#9785;
         </div>
+        @endif
+
+        @if (session('star_comment_success'))
+        <div class="alert alert-success">
+            {{ session('star_comment_success') }} &#128578;
+        </div>
+        @endif
+
+        @if (count($userRecipesCommented) != 0)
+        <div class="d-flex flex-column gap-2">
+            @foreach ($userRecipesCommented as $userRecipeCommented)
+            <div class="d-flex flex-sm-row flex-column justify-content-between border rounded p-2 gap-2">
+                <div class="d-flex align-items-center fw-medium">
+                    {{ $userRecipeCommented->recipename }}
+                </div>
+
+                <div class="d-flex justify-content-center align-item-center gap-2">
+                    <a type="button" href="{{ route('recipe.show', ['recipeId' => $userRecipe->id]) }}" class="btn btn-secondary d-flex justify-content-center align-items-center @if ($userRecipe->completed === 0) disabled @endif">
+                        <i class="bi bi-eye"></i>
+                    </a>
+
+                    <form method="POST" action="{{ route('starComment.delete', ['userId' => session()->get('user')['id'], 'starCommentId' => $userRecipeCommented->id]) }}">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit" class="btn btn-danger d-flex justify-content-center align-items-center">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        @else
+        <div class="text-center">
+            Aucune recette commentée
+        </div>
+        @endif
     </div>
 </div>
 

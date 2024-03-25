@@ -48,7 +48,7 @@ $(document).ready(function() {
 
 
 
-$(document).ready(function() {
+ $(document).ready(function() {
     $('#favoriteForm').submit(function(e) {
         e.preventDefault();
         var form = $(this);
@@ -69,8 +69,8 @@ $(document).ready(function() {
             }
         });
     });
-});
-
+}); 
+ 
 // $(document).ready(function(){
 
 //     var ingredientTemplate = `
