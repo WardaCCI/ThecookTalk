@@ -19,12 +19,9 @@
 
 
             <?php if(session()->has('user')): ?>
-            <form method="" action="" class="d-flex align-items-center gap-4">
-                <?php echo csrf_field(); ?>
-                <button type="button" class="btn btn-primary btn rounded-5 align-self-start fw-bold py-2 px-4">
-                    Partagez une recette
-                </button>
-            </form>
+            <a type="button" href="<?php echo e(route('createRecipeForm.show', ['userId' => session()->get('user')['id']])); ?>" class="btn btn-primary btn rounded-5 align-self-start fw-bold py-2 px-4">
+                Partagez une recette
+            </a>
             <?php else: ?>
             <a href="/signin" class="btn btn-primary btn rounded-5 align-self-start fw-bold py-2 px-4">
                 Partagez une recette

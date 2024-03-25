@@ -179,7 +179,7 @@ unset($__errorArgs, $__bag); ?>
 
     <!-- Recettes -->
     <div class="my-3">
-        <div class="d-flex justify-content-between border-bottom py-2 mb-3">
+        <div class="d-flex justify-content-between border-bottom py-3 mb-3">
             <div class="fw-bold fs-5 align-self-center">
                 Recettes
             </div>
@@ -199,6 +199,7 @@ unset($__errorArgs, $__bag); ?>
         </div>
         <?php endif; ?>
 
+        <?php if(count($userRecipes) != 0): ?>
         <div class="d-flex flex-column gap-2">
             <?php $__currentLoopData = $userRecipes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $userRecipe): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="d-flex flex-sm-row flex-column justify-content-between border rounded p-2 gap-2">
@@ -251,20 +252,69 @@ unset($__errorArgs, $__bag); ?>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
+        <?php else: ?>
+        <div class="text-center">
+            Aucune recette partagée
+        </div>
+        <?php endif; ?>
+
     </div>
 
     <!-- Favoris -->
-    <div class="my-3">
-        <div class="d-flex justify-content-between border-bottom py-3 mb-3">
-            <div class="fw-bold fs-5 align-self-center">
-                Favoris
-            </div>
-        </div>
-
-        <div class="text-center">
-            Aucun favoris
+<div class="my-3">
+    <div class="d-flex justify-content-between border-bottom py-3 mb-3">
+        <div class="fw-bold fs-5 align-self-center">
+            Favoris
         </div>
     </div>
+
+     <!-- notifications -->
+     <?php if(session('favorite_warning')): ?>
+     <div class="alert alert-warning">
+         <?php echo e(session('favorite_warning')); ?> &#9785;
+     </div>
+     <?php endif; ?>
+
+     <?php if(session('favorite_success')): ?>
+     <div class="alert alert-success">
+         <?php echo e(session('favorite_success')); ?> &#128578;
+     </div>
+     <?php endif; ?>
+
+
+    <?php if(count($userFavoriteRecipes) != 0): ?>
+    <div class="d-flex flex-column gap-2">
+        <?php $__currentLoopData = $userFavoriteRecipes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $favoriteRecipe): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <div class="d-flex flex-sm-row flex-column justify-content-between border rounded p-2 gap-2">
+            <div class="d-flex align-items-center fw-medium">
+                <?php echo e($favoriteRecipe->recipename); ?>
+
+            </div>
+
+            <div class="d-flex justify-content-center align-item-center gap-2">
+                <a type="button" href="<?php echo e(route('recipe.show', ['recipeId' => $favoriteRecipe->id_recipe])); ?>" class="btn btn-secondary d-flex justify-content-center align-items-center ">
+                    <i class="bi bi-eye"></i>
+                </a>
+                
+                <form method="POST" action="<?php echo e(route('favorite.delete', ['userId' => session()->get('user')['id'], 'favoriteId' => $favoriteRecipe->id])); ?>">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('DELETE'); ?>
+                
+                    <button type="submit" class="btn btn-danger d-flex justify-content-center align-items-center">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </div>
+    <?php else: ?>
+    <div class="text-center">
+        Aucune recette ajoutée en favoris
+    </div>
+    <?php endif; ?>
+</div>
+
 
     <!-- Commentaires -->
     <div class="my-3">
@@ -274,9 +324,50 @@ unset($__errorArgs, $__bag); ?>
             </div>
         </div>
 
-        <div class="text-center">
-            Aucun commentaire ajouté
+        <!-- notifications -->
+        <?php if(session('star_comment_warning')): ?>
+        <div class="alert alert-warning">
+            <?php echo e(session('star_comment_warning')); ?> &#9785;
         </div>
+        <?php endif; ?>
+
+        <?php if(session('star_comment_success')): ?>
+        <div class="alert alert-success">
+            <?php echo e(session('star_comment_success')); ?> &#128578;
+        </div>
+        <?php endif; ?>
+
+        <?php if(count($userRecipesCommented) != 0): ?>
+        <div class="d-flex flex-column gap-2">
+            <?php $__currentLoopData = $userRecipesCommented; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $userRecipeCommented): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div class="d-flex flex-sm-row flex-column justify-content-between border rounded p-2 gap-2">
+                <div class="d-flex align-items-center fw-medium">
+                    <?php echo e($userRecipeCommented->recipename); ?>
+
+                </div>
+
+                <div class="d-flex justify-content-center align-item-center gap-2">
+                    <a type="button" href="<?php echo e(route('recipe.show', ['recipeId' => $userRecipe->id])); ?>" class="btn btn-secondary d-flex justify-content-center align-items-center <?php if($userRecipe->completed === 0): ?> disabled <?php endif; ?>">
+                        <i class="bi bi-eye"></i>
+                    </a>
+
+                    <form method="POST" action="<?php echo e(route('starComment.delete', ['userId' => session()->get('user')['id'], 'starCommentId' => $userRecipeCommented->id])); ?>">
+                        <?php echo csrf_field(); ?>
+                        <?php echo method_field('DELETE'); ?>
+
+                        <button type="submit" class="btn btn-danger d-flex justify-content-center align-items-center">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </div>
+        <?php else: ?>
+        <div class="text-center">
+            Aucune recette commentée
+        </div>
+        <?php endif; ?>
     </div>
 </div>
 
