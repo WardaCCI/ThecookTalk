@@ -59,4 +59,16 @@ class FavoriteRepository
         
         return $favorite;
     }
+
+    public function getuserFavoriteRecipes(int $userId)
+    {
+        return Favorite::join('recipes', 'favorites.id_recipe', '=','recipes.id')
+            ->where('favorites.id_user', $userId)
+            ->get([
+               'recipes.recipename as recipename',
+               'favorites.id as id',
+               'favorites.id_recipe as id_recipe',
+            ]);
+    }
+
 }

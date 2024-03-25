@@ -12,6 +12,8 @@ use App\Repositories\AuthRepository;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use App\Repositories\RecipeRepository;
+use App\Repositories\StarCommentRepository;
+use App\Repositories\FavoriteRepository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -24,11 +26,14 @@ class AuthController extends BaseController
 
     protected $authRepository;
     protected $recipeRepository;
+    protected $starcommentRepository;
 
-    public function __construct(AuthRepository $authRepository, RecipeRepository $recipeRepository)
+    public function __construct(AuthRepository $authRepository, RecipeRepository $recipeRepository, StarCommentRepository $starcommentRepository,FavoriteRepository $favoriteRepository)
     {
         $this->authRepository = $authRepository;
         $this->recipeRepository = $recipeRepository;
+        $this->starcommentRepository = $starcommentRepository;
+        $this->favoriteRepository=$favoriteRepository;
     }
 
     /** views preview function */
@@ -53,10 +58,15 @@ class AuthController extends BaseController
 
         $user = $this->authRepository->getUser($userId);
         $userRecipes = $this->recipeRepository->getUserRecipes($userId);
+        $userRecipesCommented = $this->starcommentRepository->getUserRecipesCommented($userId);
+        $userFavoriteRecipes = $this->favoriteRepository->getuserFavoriteRecipes($userId);
+        // dump($userRecipes);
 
         return view('users/user_dashboard', [
             'user' => $user, 
-            'userRecipes' => $userRecipes
+            'userRecipes' => $userRecipes,
+            'userFavoriteRecipes' => $userFavoriteRecipes,
+            'userRecipesCommented' => $userRecipesCommented,
         ]);
     }
 
@@ -183,8 +193,6 @@ class AuthController extends BaseController
 
         $validatedData = $request->validate($rules, $messages);
 
-       
-
         DB::beginTransaction();
 
         try {
@@ -192,7 +200,6 @@ class AuthController extends BaseController
             $this->sendEmailValidation($request, $userAddedId);
             DB::commit();
         } catch (Exception $exception) {
-            
             DB::rollBack();
             return redirect()
                 ->back()

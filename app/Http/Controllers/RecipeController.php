@@ -57,16 +57,6 @@ class RecipeController extends Controller
         return view('recipes/recipe_create_form', ['ingredients' => $ingredients, 'units' => $units]);
     }
 
-    public function showRecipes()
-    {
-        try {
-           $recipes = $this-> recipeRepository->getRecipes();
-        } catch (Exception $e) {
-            return redirect()->back()->with('warning', "Impossible de charger la page de la recette");
-        }
-
-        return view('recipes/recipes', ['recipes' => $recipes, 'recipeimages']);
-    }
 
     /**
      * 

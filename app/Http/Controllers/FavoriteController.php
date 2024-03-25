@@ -47,6 +47,16 @@ class FavoriteController extends Controller
 
 
 
-   
+    public function deleteFavorite(int $userId, int $favoriteId)
+    {  
+        try {
+            $this->favoriteRepository->deleteFavorite($favoriteId);
+        } catch (Exception $e) {
+            return redirect()->back()->withInput()->with("favorite_warning", "Echec de la suppression de votre favorit");
+        }
+
+        return redirect()->back()->with('favorite_success', "Votre favoris a été bien supprimé");
+    }
+
 
 }
