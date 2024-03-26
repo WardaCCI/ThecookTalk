@@ -58,7 +58,7 @@
                         <?php echo csrf_field(); ?>
                         <input type="hidden" name="recipeId" value="<?php echo e($recipe->id); ?>">
                         <button id="heartButton" type="submit" class="btn d-flex justify-content-center align-items-center border border-0">
-                            <i id="heartIcon" class="bi bi-heart"></i>
+                            <i id="heartIcon" class="bi bi-hear"></i>
                         </button>
                     </form>
                 </div>
@@ -102,7 +102,7 @@
 
                     </div>
                     <div class="">
-                        <?php echo e(number_format($recipeQuantity->calorie * $recipe->for, $recipeQuantity->calorie == (int)$recipeQuantity->calorie ? 0 : 2)); ?> <?php if($recipeQuantity->calorie > 1): ?> calories <?php else: ?> calorie <?php endif; ?>
+                        <?php echo e(number_format($recipeQuantity->calorie, $recipeQuantity->calorie == (int)$recipeQuantity->calorie ? 0 : 2)); ?> <?php if($recipeQuantity->calorie > 1): ?> calories <?php else: ?> calorie <?php endif; ?>
                     </div>
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

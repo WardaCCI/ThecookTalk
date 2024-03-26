@@ -193,7 +193,7 @@ unset($__errorArgs, $__bag); ?>
 
                 <!-- for -->
                 <div class="my-2">
-                    <input type="number" name="for" value="<?php echo e($recipe->for); ?>" placeholder="10" aria-describedby="for_feedback" class="col form-control shadow-none <?php $__errorArgs = ['for'];
+                    <input type="number" min="0" name="for" value="<?php echo e($recipe->for); ?>" placeholder="10" aria-describedby="for_feedback" class="col form-control shadow-none <?php $__errorArgs = ['for'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -286,7 +286,7 @@ unset($__errorArgs, $__bag); ?>">
                         </div>
 
                         <div class="d-flex flex-column">
-                            <input type="number" step="any" name="quantity" value="<?php echo e(old('quantity')); ?>" placeholder="100.00" aria-describedby="quantity_feedback" class="col form-control shadow-none <?php $__errorArgs = ['quantity'];
+                            <input type="number" min="0" step="any" name="quantity" value="<?php echo e(old('quantity')); ?>" placeholder="100.00" aria-describedby="quantity_feedback" class="col form-control shadow-none <?php $__errorArgs = ['quantity'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
