@@ -78,10 +78,10 @@
                                     $filledStars = min(round($recipe->ratings->avg('stars')), 5);
                                     @endphp
                                     @for ($i = 1; $i <= 5; $i++) @if ($i <=$filledStars) <!-- Étoile pleine -->
-                                        <span class="star-comment fs-6 good" data-rating="{{ $i }}">&#9733;</span>
+                                        <span class="star-comment text-center fs-2 good" data-rating="{{ $i }}">&#9733;</span>
                                         @else
                                         <!-- Étoile vide -->
-                                        <span class="star-comment fs-6" data-rating="{{ $i }}">&#9734;</span>
+                                        <span class="star-comment text-center fs-2" data-rating="{{ $i }}">&#9734;</span>
                                         @endif
                                         @endfor
                                 </div>
