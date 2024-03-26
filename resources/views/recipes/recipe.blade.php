@@ -59,7 +59,7 @@
                         @csrf
                         <input type="hidden" name="recipeId" value="{{ $recipe->id }}">
                         <button id="heartButton" type="submit" class="btn d-flex justify-content-center align-items-center border border-0">
-                            <i id="heartIcon" class="bi bi-heart"></i>
+                            <i id="heartIcon" class="bi bi-hear"></i>
                         </button>
                     </form>
                 </div>
@@ -100,7 +100,7 @@
                         {{ $recipeQuantity->ingredientname }}
                     </div>
                     <div class="">
-                        {{ number_format($recipeQuantity->calorie * $recipe->for, $recipeQuantity->calorie == (int)$recipeQuantity->calorie ? 0 : 2) }} @if ($recipeQuantity->calorie > 1) calories @else calorie @endif
+                        {{ number_format($recipeQuantity->calorie, $recipeQuantity->calorie == (int)$recipeQuantity->calorie ? 0 : 2) }} @if ($recipeQuantity->calorie > 1) calories @else calorie @endif
                     </div>
                 </div>
                 @endforeach
