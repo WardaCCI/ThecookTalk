@@ -133,17 +133,17 @@
 </style>
 
 <!-- Espacement avant la section -->
-<div class="mt-11"></div> <!-- Ajout de l'espace avant la section -->
+<div class="mt-11"></div> 
 
 <!-- Section L'équipe ThecookTalk -->
-<div class="container mt-8"> <!-- Augmentation de la marge supérieure -->
+<div class="container mt-8"> 
     <div class="fs-2 fw-bold text-center">
         L'équipe ThecookTalk
     </div>
 
     <div class="row mt-4">
         <!-- Description de l'équipe -->
-        <div class="col-md-6 mb-4"> <!-- Augmentation de la marge inférieure -->
+        <div class="col-md-6 mb-4"> 
             <p style="text-align: justify; line-height: 1.8; font-size: 20px;">
             "L'équipe ThecookTalk réunit des passionnés de technologie et de cuisine dévoués à offrir une expérience culinaire exceptionnelle. Nous sommes une équipe diversifiée de développeurs, designers et amateurs de cuisine unis par notre engagement à créer une plateforme conviviale et innovante. Notre mission est de permettre aux passionnés de partager leurs recettes, découvrir de nouvelles saveurs et se connecter avec une communauté mondiale de gastronomes. Avec la technologie comme alliée, nous aspirons à inspirer et rassembler les gens autour de la nourriture, pour créer la meilleure expérience culinaire possible."
             </p>
@@ -200,7 +200,7 @@
 
 
 <!-- Espacement après la section -->
-<div class="mt-11"></div> <!-- Ajout de l'espace après la section -->
+<div class="mt-11"></div> 
 
 
 </div>
