@@ -24,7 +24,7 @@ class RecipesData
                 "recipename" => "Riz au poisson", 
                 "time" => "01:30", 
                 "cookingtype" => "Vapeur", 
-                "category" => "Boisson",
+                "category" => "Plat",
                 "difficulty" => "Moyenne",
                 "visibility" => false,
                 "completed" => false,
