@@ -79,7 +79,7 @@
     </div>
 
     <!-- footer -->
-    <div class="container d-flex justify-content-center align-items-center border-top bg-white mt-3 py-4">
+    <div class="container d-flex justify-content-center align-items-center border-top bg-white mt-5 py-4">
         <a href="#" class="fs-5 fw-bold my-0 link-dark link-underline link-underline-opacity-0">© 2024 TheCookTalk</a>
     </div>
 
@@ -91,6 +91,12 @@
 
     <!-- js for recipe form -->
     <script src="{{ asset('js/recipe_form.js') }}"></script>
+
+    <!-- js for favorite -->
+    <script src="{{ asset('js/update_quantities.js') }}"></script>
+
+    <!-- js for favorite -->
+    <script src="{{ asset('js/prevent_page_reload.js') }}"></script>
 
 </body>
 
