@@ -443,6 +443,14 @@ class IngredientsData
                 "ingredientname" => "Beurre",
                 "calorie" => 717,
             ],
+            [
+                "ingredientname" => "Mérou",
+                "calorie" => 225,
+            ],
+            [
+                "ingredientname" => "Tomate concentré",
+                "calorie" => 90,
+            ],
         ];
     }
 }
