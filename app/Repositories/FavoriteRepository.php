@@ -19,17 +19,7 @@ class FavoriteRepository
             ->delete();
     }
 
-    public function getFavorite(int $favoriteId)
-    {
-        return Favorite::where('id', $favoriteId)
-            ->first();
-    }
-
-    public function getRecipeFavorite(int $recipeId)
-    {
-        return Favorite::where('id_recipe', $recipeId)
-            ->get();
-    }
+   
 
     public function getFavoriteByUserAndRecipe(int $userID, int $recipeId)
     {
@@ -51,15 +41,7 @@ class FavoriteRepository
         }
     }
 
-    public function isRecipeInFavorites(int $userID, int $recipeId): bool
-    {
-        $favorite = Favorite::where('id_user', $userID)
-                            ->where('id_recipe', $recipeId)
-                            ->exists();
-        
-        return $favorite;
-    }
-
+   
     public function getuserFavoriteRecipes(int $userId)
     {
         return Favorite::join('recipes', 'favorites.id_recipe', '=','recipes.id')

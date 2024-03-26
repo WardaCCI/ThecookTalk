@@ -321,7 +321,7 @@ class IngredientsData
             ],
             [
                 "ingredientname" => "Sel",
-                "calorie" => 130,
+                "calorie" => 0,
             ],
             [
                 "ingredientname" => "Bouillon",
@@ -443,6 +443,104 @@ class IngredientsData
                 "ingredientname" => "Beurre",
                 "calorie" => 717,
             ],
+
+            [
+                "ingredientname" => "Quinoa",//110
+                "calorie" => 368,
+            ],
+
+            [
+                "ingredientname" => "Jus de citron",
+                "calorie" => 15,
+            ],
+           
+            [
+                "ingredientname" => "Poivre",
+                "calorie" => 255,
+            ],
+
+            [
+                "ingredientname" => "Poulet fermier",
+                "calorie" => 206000,
+            ],
+           
+            [
+                "ingredientname" => "Thym",
+                "calorie" => 107,
+            ],
+
+           
+
+
+            [
+                "ingredientname" => "Romarin",
+                "calorie" => 121,
+            ],
+
+
+            [
+                "ingredientname" => "Canelle",
+                "calorie" => 247,
+            ],
+
+
+            [
+                "ingredientname" => "Pâte brisée",
+                "calorie" => 505,
+            ],
+
+
+
+
+            [
+                "ingredientname" => "Yaourt nature",//118
+                "calorie" => 5700,
+            ],
+
+
+            [
+                "ingredientname" => "Miel",
+                "calorie" => 304,
+            ],
+
+
+            [
+                "ingredientname" => "Jus d'orange",
+                "calorie" => 45,
+            ],
+
+
+
+            [
+                "ingredientname" => "Lardon",//121
+                "calorie" => 275000,
+            ],
+
+
+            [
+                "ingredientname" => "Spaghetti",
+                "calorie" => 158,
+            ],
+
+
+
+            [
+                "ingredientname" => "Herbes de provence",//123
+                "calorie" => 283000,
+            ],
+
+
+            [
+                "ingredientname" => "Crevette",
+                "calorie" => 94,
+            ],
+
+            [
+                "ingredientname" => "Riz",
+                "calorie" => 130,
+            ],
+           
         ];
     }
+
 }

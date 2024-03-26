@@ -37,7 +37,34 @@ class UnitsData
             [
                 "unitname" => "lamelle",
             ],
+
+            [
+                "unitname" => "poulet",
+            ],
+
+            [
+                "unitname" => "noisette",
+            ],
+
+
+            [
+                "unitname" => "millilitre",
+            ],
+
+            [
+                "unitname" => "oeuf",
+            ],
+
+
+            [
+                "unitname" => "fromage",
+            ],
+
+            [
+                "unitname" => "gousse",
+            ],
         ];
+        
     }
 }
 ?>

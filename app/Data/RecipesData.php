@@ -128,7 +128,101 @@ class RecipesData
                 "id_unit" => 5,
                 "id_user" => 1,
             ],
+
+            [
+                "recipename" => "Salade de quinoa aux légumes grillés", 
+                "time" => "00:30", 
+                "cookingtype" => "Sans cuisson", 
+                "category" => "Entrée", 
+                "difficulty" => "Facile",
+                "visibility" => false,
+                "completed" => false,
+                "for" => 3,
+                "id_unit" => 5,
+                "id_user" => 3,
+            ],
+            [
+                "recipename" => "Poulet rôti aux herbes", 
+                "time" => "01:20", 
+                "cookingtype" => "Four", 
+                "category" => "Plat",
+                "difficulty" => "Moyen",
+                "visibility" => false,
+                "completed" => false,
+                "for" => 4,
+                "id_unit" => 5,
+                "id_user" => 3,
+            ],
+            [
+                "recipename" => "Tarte aux pommes maison", 
+                "time" => "01:00", 
+                "cookingtype" => "Four", 
+                "category" => "Dessert",
+                "difficulty" => "Facile",
+                "visibility" => false,
+                "completed" => false,
+                "for" => 8,
+                "id_unit" => 5,
+                "id_user" => 3,
+            ],
+            [
+                "recipename" => "Smoothie fraise-banane", 
+                "time" => "00:10", 
+                "cookingtype" => "Sans cuisson", 
+                "category" => "Boisson",
+                "difficulty" => "Facile",
+                "visibility" => false,
+                "completed" => false,
+                "for" => 1,
+                "id_unit" => 3,
+                "id_user" => 3,
+            ],
+            [
+                "recipename" => "Pâtes carbonara", 
+                "time" => "00:25", 
+                "cookingtype" => "Poele", 
+                "category" => "Plat",
+                "difficulty" => "Difficile",
+                "visibility" => false,
+                "completed" => false,
+                "for" => 3,
+                "id_unit" => 5,
+                "id_user" => 3,
+            ],
+
+
+
+
+            [
+                "recipename" => "Ratatouille provençale", 
+                "time" => "01:15:00", 
+                "cookingtype" => "Four", 
+                "category" => "Plat",
+                "difficulty" => "Moyen",
+                "visibility" => false,
+                "completed" => false,
+                "for" => 4,
+                "id_unit" => 5,
+                "id_user" => 3,
+            ],
+           
+
+            [
+                "recipename" => "Crevettes sautées à l'ail et au persil", 
+                "time" => "00:20:00", 
+                "cookingtype" => "Poele", 
+                "category" => "Plat",
+                "difficulty" => "Facile",
+                "visibility" => false,
+                "completed" => false,
+                "for" => 2,
+                "id_unit" => 5,
+                "id_user" => 3,
+            ],
         ];
+
+
     }
 
 }
+    
