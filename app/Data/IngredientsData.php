@@ -360,7 +360,7 @@ class IngredientsData
                 "ingredientname" => "Citron vert",
                 "calorie" => 40.20,
             ],
-            
+
             // #60
             [
                 "ingredientname" => "Amande",
@@ -654,7 +654,7 @@ class IngredientsData
                 "ingredientname" => "Pancetta",
                 "calorie" => 342,
             ],
-            
+
             // #109
             [
                 "ingredientname" => "Beurre",
@@ -690,6 +690,48 @@ class IngredientsData
                 "ingredientname" => "Poivre",
                 "calorie" => 251,
             ],
+            // #115
+            [
+                "ingredientname" => "Maïzena",
+                "calorie" => 347.5,
+            ],
+            // #116
+            [
+                "ingredientname" => "Fleur d'oranger",
+                "calorie" => 3,
+            ],
+            // #117
+            [
+                "ingredientname" => "Vinaigre",
+                "calorie" => 23,
+            ],
+            // #118
+            [
+                "ingredientname" => "Cannelle",
+                "calorie" => 349, // Calories pour 100g de cannelle
+            ],
+
+            // #119
+            [
+                "ingredientname" => "Safran",
+                "calorie" => 310, // Calories pour 100g de safran
+            ],
+
+            // #120
+            [
+                "ingredientname" => "Eau",
+                "calorie" => 0, // Calories pour 100g d'eau
+            ],
+
+            // #121
+            [
+                "ingredientname" => "Pruneaux",
+                "calorie" => 244, // Calories pour 100g de pruneaux
+            ],
+
+
+
+
         ];
     }
 }

@@ -336,8 +336,24 @@ class RecipeController extends Controller
     public function index()
     {
         $recipes = Recipe::with('ratings')->get();
-    
+
         return view('recipes.index', ['recipes' => $recipes]);
     }
+
+    public function filterByRating(Request $request)
+    {
+        $rating = $request->input('rating');
     
+        if ($rating) {
+            $recipes = Recipe::whereHas('ratings', function ($query) use ($rating) {
+                $query->where('stars', $rating);
+            })->get();
+        } else {
+            $recipes = Recipe::all();
+        }
+    
+        return view('recipes.filtered_recipes', ['recipes' => $recipes, 'selectedRating' => $rating]);
+    }
+    
+
 }

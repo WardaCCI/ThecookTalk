@@ -3,21 +3,45 @@
 @section('content')
 
 <div class="container">
+    <!-- Filtrage par notation -->
+    <div class="row justify-content-end mt-3">
+        <div class="col-md-4">
+            <form action="{{ route('filter.recipes') }}" method="GET">
+                <div class="input-group">
+                    <label for="rating-filter" class="input-group-text">Filtrer par notation :</label>
+                    <select class="form-select" id="rating-filter" name="rating">
+                        <option value="">Tous</option>
+                        <option value="5">5 étoiles</option>
+                        <option value="4">4 étoiles</option>
+                        <option value="3">3 étoiles</option>
+                        <option value="2">2 étoiles</option>
+                        <option value="1">1 étoile</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Filtrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="row gy-5 mb-5">
         <h1 class="text-center fw-bold my-5">Découvrez nos recettes</h1>
         <!-- Affichage du temps de préparation moyen -->
         @php
-        // Calcul de la moyenne du temps de préparation en minutes
         $totalMinutes = 0;
+        $averageTime = 0; // Initialiser la moyenne à zéro par défaut
+
+        if (!empty($recipes)) { // Vérifier si le tableau de recettes n'est pas vide
         foreach($recipes as $recipe) {
         $timeArray = explode(':', $recipe->time);
         $totalMinutes += intval($timeArray[0]) * 60 + intval($timeArray[1]);
         }
-        $averageTime = $totalMinutes / count($recipes);
+
+        $averageTime = $totalMinutes / max(count($recipes), 1); // Utilisez max pour éviter la division par zéro
+        }
+
         // Formatage du temps de préparation moyen
         $formattedAverageTime = ($averageTime >= 60) ? floor($averageTime / 60) . ' hr' : $averageTime . ' min';
         @endphp
-
         @foreach($recipes as $key => $recipe)
         @if($key % 3 == 0) <!-- Ouvre une nouvelle ligne toutes les trois recettes -->
         <div class="row gy-5 mb-5">
@@ -70,7 +94,7 @@
                                 </span>{{ $recipe->cookingtype }}
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between mb-3 px-md-5">
+                        <div class="d-flex justify-content-center mb-3 px-md-5"> <!-- Utilisez justify-content-center pour centrer horizontalement -->
                             <div class="d-flex justify-content-center align-items-center gap-2">
                                 <div class="d-flex justify-content-center align-items-center gap-1 pb-1" id="rating-top">
                                     @php
@@ -86,11 +110,12 @@
                                         @endfor
                                 </div>
 
-                                <div class="d-flex justify-content-center align-items-center">
+                                <div class="d-flex justify-content-center align-items-center"> <!-- Centrer le texte à l'intérieur du rating -->
                                     {{ number_format($recipe->ratings->avg('stars'), 1) }}/5
                                 </div>
                             </div>
                         </div>
+
                         <div class="text-center mt-3">
                             <a href="{{ route('recipe.show', ['recipeId' => $recipe->id]) }}" class="btn btn-success btn-voir-recette">Voir la recette</a>
                         </div>

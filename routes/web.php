@@ -226,6 +226,8 @@ Route::delete('/dashboard/{userId}/update-recipe/{recipeId}/image/{imageId}', [I
 /** recipes routes */
 Route::get('/recipes', [RecipeController::class, 'showRecipes'])
     ->name('recipes.show');
+    // Route::get('/recipes/filtered', [RecipeController::class, 'filterByRating'])->name('recipes.filtered');
+    Route::get('/recipes/filtered', [RecipeController::class, 'filterByRating'])->name('filter.recipes');
 
 /** ------------------------------------------------------------------------------------------------ */
 /** stars and comment routes */
