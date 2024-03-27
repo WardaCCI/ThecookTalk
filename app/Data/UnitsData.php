@@ -56,6 +56,25 @@ class UnitsData
             [
                 "unitname" => "lamelle",
             ],
+
+            // #11
+            [
+                "unitname" => "gousse",
+            ],
+
+            // #12
+            [
+                "unitname" => "branche",
+            ],
+
+            // #13
+            [
+                "unitname" => "feuille",
+            ],
+            // #13
+            [
+                "unitname" => "bouquet",
+            ],
         ];
     }
 }

@@ -660,13 +660,88 @@ class IngredientsData
                 "ingredientname" => "Beurre",
                 "calorie" => 717,
             ],
+
+            // #110
+            [
+                "ingredientname" => "Poulet",
+                "calorie" => 239,
+            ],
+
+            // #111
+            [
+                "ingredientname" => "Farine de semoule",
+                "calorie" => 360,
+            ],
+
+            // #112
+            [
+                "ingredientname" => "Jus de poulet",
+                "calorie" => 360,
+            ],
+
+            // #113
+            [
+                "ingredientname" => "Thym",
+                "calorie" => 107,
+            ],
+
+            // #114
+            [
+                "ingredientname" => "Poivre",
+                "calorie" => 251,
+            ],
+
+             // #115
             [
                 "ingredientname" => "Mérou",
                 "calorie" => 225,
             ],
+
+             // #116
             [
                 "ingredientname" => "Tomate concentré",
                 "calorie" => 90,
+            ],
+
+             // #117
+             [
+                "ingredientname" => "Créme liquide",
+                "calorie" => 269,
+            ],
+
+            // #118
+            [
+                "ingredientname" => "lait entier",
+                "calorie" => 65,
+            ],
+
+            // #119
+            [
+                "ingredientname" => "Riz",
+                "calorie" => 90,
+            ],
+
+            // #120
+            [
+                "ingredientname" => "Café de cannelle",
+                "calorie" => 6,
+            ],
+
+             // #121
+             [
+                "ingredientname" => "Epaule d'agneau",
+                "calorie" => 289,
+            ],
+
+            // #122
+            [
+                "ingredientname" => "Romarin",
+                "calorie" => 121,
+            ],
+            // #123
+            [
+                "ingredientname" => "tortillas",
+                "calorie" => 218,
             ],
         ];
     }
